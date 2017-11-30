@@ -1,11 +1,11 @@
 <?php
 
-namespace ElfSundae\Laravel\MultiApp;
+namespace ElfSundae\Laravel\Apps;
 
 use Illuminate\Support\ServiceProvider;
 use Laravel\Lumen\Application as LumenApplication;
 
-class MultiAppServiceProvider extends ServiceProvider
+class AppsServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the service provider.
@@ -27,8 +27,8 @@ class MultiAppServiceProvider extends ServiceProvider
     protected function publishAssets()
     {
         $this->publishes([
-            __DIR__.'/../config/multi-app.php' => base_path('config/multi-app.php'),
-        ], 'laravel-multi-app');
+            __DIR__.'/../config/apps.php' => base_path('config/apps.php'),
+        ], 'laravel-apps');
     }
 
     /**
@@ -49,9 +49,9 @@ class MultiAppServiceProvider extends ServiceProvider
     protected function setupAssets()
     {
         if ($this->app instanceof LumenApplication) {
-            $this->app->configure('multi-app');
+            $this->app->configure('apps');
         }
 
-        $this->mergeConfigFrom(__DIR__.'/../config/multi-app.php', 'multi-app');
+        $this->mergeConfigFrom(__DIR__.'/../config/apps.php', 'apps');
     }
 }

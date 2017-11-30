@@ -1,9 +1,9 @@
 {
-    "name": "elfsundae/laravel-multi-app",
+    "name": "elfsundae/laravel-apps",
     "type": "library",
-    "description": "Laravel multi application support",
-    "keywords": ["laravel", "multi", "app", "domain"],
-    "homepage": "https://github.com/ElfSundae/laravel-multi-app",
+    "description": "Laravel multiple applications",
+    "keywords": ["laravel", "multi", "apps", "domain"],
+    "homepage": "https://github.com/ElfSundae/laravel-apps",
     "license": "MIT",
     "authors": [
         {
@@ -22,7 +22,7 @@
     },
     "autoload": {
         "psr-4": {
-            "ElfSundae\\Laravel\\MultiApp\\": "src/"
+            "ElfSundae\\Laravel\\Apps\\": "src/"
         },
         "files": [
             "src/helpers.php"
@@ -30,7 +30,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "ElfSundae\\Laravel\\MultiApp\\Test\\": "tests/"
+            "ElfSundae\\Laravel\\Apps\\Test\\": "tests/"
         }
     },
     "scripts": {
@@ -42,7 +42,7 @@
         },
         "laravel": {
             "providers": [
-                "ElfSundae\\Laravel\\MultiApp\\MultiAppServiceProvider"
+                "ElfSundae\\Laravel\\Apps\\AppsServiceProvider"
             ]
         }
     }
