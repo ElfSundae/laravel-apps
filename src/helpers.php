@@ -9,13 +9,12 @@ if (! function_exists('is_app')) {
      */
     function is_app(...$identifiers)
     {
-        $request = app('request');
-        $currentUrl = $request->getHttpHost().$request->getBaseUrl().$request->getPathInfo();
+        $currentUrl = app('request')->getUri();
 
         foreach ($identifiers as $identifier) {
             if ($url = config("apps.url.$identifier")) {
-                $url = preg_replace('#^https?://#', '', $url, 1);
-                $pattern = '#^'.preg_quote($url, '#').'([\?/].*)?$#';
+                $url = preg_replace('#^https?://#', '', $url);
+                $pattern = '#^https?://'.preg_quote($url, '#').'([\?/].*)?$#';
                 if (preg_match($pattern, $currentUrl)) {
                     return true;
                 }
