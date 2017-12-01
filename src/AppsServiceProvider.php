@@ -54,8 +54,10 @@ class AppsServiceProvider extends ServiceProvider
 
         $this->mergeConfigFrom(__DIR__.'/../config/apps.php', 'apps');
 
-        $this->app['config']['apps.domain'] = array_map(function ($url) {
-            return parse_url($url, PHP_URL_HOST);
-        }, $this->app['config']['apps.url']);
+        if (! $this->app['config']->has('apps.domain')) {
+            $this->app['config']['apps.domain'] = array_map(function ($url) {
+                return parse_url($url, PHP_URL_HOST);
+            }, $this->app['config']['apps.url']);
+        }
     }
 }
