@@ -13,7 +13,7 @@ if (! function_exists('is_app')) {
         $currentUrl = $request->getHttpHost().$request->getBaseUrl().$request->getPathInfo();
 
         foreach ($identifiers as $identifier) {
-            if ($url = config('apps.url.'.$identifier)) {
+            if ($url = config("apps.url.$identifier")) {
                 $url = preg_replace('#^https?://#', '', $url, 1);
                 $pattern = '#^'.preg_quote($url, '#').'([\?/].*)?$#';
                 if (preg_match($pattern, $currentUrl) === 1) {
