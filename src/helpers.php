@@ -16,7 +16,7 @@ if (! function_exists('is_app')) {
             if ($url = config("apps.url.$identifier")) {
                 $url = preg_replace('#^https?://#', '', $url, 1);
                 $pattern = '#^'.preg_quote($url, '#').'([\?/].*)?$#';
-                if (preg_match($pattern, $currentUrl) === 1) {
+                if (preg_match($pattern, $currentUrl)) {
                     return true;
                 }
             }
