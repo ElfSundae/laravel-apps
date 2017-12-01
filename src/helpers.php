@@ -2,7 +2,7 @@
 
 if (! function_exists('is_app')) {
     /**
-     * Determine the current sub application.
+     * Determine if a given identifier matches the current application identifier.
      *
      * @param  string  $identifiers
      * @return bool
