@@ -22,7 +22,7 @@ For Lumen or earlier Laravel than v5.5, you need to register the service provide
 ElfSundae\Laravel\Apps\AppsServiceProvider::class,
 ```
 
-Then publish the configuration file and assets:
+Then publish the configuration file:
 
 ```sh
 $ php artisan vendor:publish --tag=laravel-apps
