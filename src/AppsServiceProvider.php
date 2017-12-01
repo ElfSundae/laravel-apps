@@ -49,7 +49,7 @@ class AppsServiceProvider extends ServiceProvider
     protected function setupAssets()
     {
         if ($this->app instanceof LumenApplication) {
-            $this->app->configure('apps');
+            $this->app->configure('apps'); // @codeCoverageIgnore
         }
 
         $this->mergeConfigFrom(__DIR__.'/../config/apps.php', 'apps');
