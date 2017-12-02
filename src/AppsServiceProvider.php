@@ -39,6 +39,10 @@ class AppsServiceProvider extends ServiceProvider
     public function register()
     {
         $this->setupAssets();
+
+        $this->app->rebinding('request', function () {
+            AppIdentifier::refresh();
+        });
     }
 
     /**

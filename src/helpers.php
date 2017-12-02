@@ -1,27 +1,22 @@
 <?php
 
-if (! function_exists('is_app')) {
-    /**
-     * Check the current application identifier.
-     *
-     * @param  string  $identifiers
-     * @return bool
-     */
-    function is_app(...$identifiers)
-    {
-        $currentUrl = app('request')->getUri();
+use ElfSundae\Laravel\Apps\AppIdentifier;
 
-        foreach ($identifiers as $identifier) {
-            if ($url = config("apps.url.$identifier")) {
-                $url = preg_replace('#^https?://#', '', $url);
-                $pattern = '#^https?://'.preg_quote($url, '#').'([\?/].*)?$#';
-                if (preg_match($pattern, $currentUrl)) {
-                    return true;
-                }
-            }
+if (! function_exists('app_id')) {
+    /**
+     * Get or check the current application identifier.
+     *
+     * @return string|bool
+     */
+    function app_id()
+    {
+        $identifier = AppIdentifier::get();
+
+        if (func_num_args() > 0) {
+            return in_array($identifier, is_array(func_get_arg(0)) ? func_get_arg(0) : func_get_args());
         }
 
-        return false;
+        return $identifier;
     }
 }
 
