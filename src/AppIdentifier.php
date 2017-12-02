@@ -20,9 +20,11 @@ class AppIdentifier
             return app()->make(static::IDENTIFIER_KEY);
         }
 
-        return app()->instance(
-            static::IDENTIFIER_KEY,
-            static::getForUrl(app('request')->getUri())
+        return tap(
+            static::getForUrl(app('request')->getUri()),
+            function ($id) {
+                app()->instance(static::IDENTIFIER_KEY, $id);
+            }
         );
     }
 
