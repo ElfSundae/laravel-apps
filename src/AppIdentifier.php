@@ -44,7 +44,7 @@ class AppIdentifier
      * @param  string  $url
      * @return string
      */
-    protected static function getForUrl($url)
+    public static function getForUrl($url)
     {
         $identifier = null;
 
