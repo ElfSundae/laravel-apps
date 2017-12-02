@@ -11,13 +11,13 @@ class AppsServiceProviderTest extends TestCase
     {
         $this->app['config']['apps.url'] = [
             'web' => 'http://web.app',
-            'api' => 'https://example.domain.app/api',
+            'api' => 'https://example.web.app/api',
         ];
         $this->app->register(AppsServiceProvider::class);
 
         $this->assertEquals([
             'web' => 'web.app',
-            'api' => 'example.domain.app',
+            'api' => 'example.web.app',
         ], $this->app['config']['apps.domain']);
     }
 }
