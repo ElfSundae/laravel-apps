@@ -35,14 +35,16 @@ if (! function_exists('app_url')) {
             list($query, $identifier) = [$identifier, $query];
         }
 
+        $url = config("apps.url.$identifier", config('app.url'));
+
         if ($path = ltrim($path, '/')) {
-            $path = '/'.$path;
+            $url .= (strpos($path, '?') === 0 ? '' : '/').$path;
         }
 
-        if ($query && $query = http_build_query($query)) {
-            $path .= (str_contains($path, ['?', '&', '#']) ? '&' : '?').$query;
+        if ($query && $query = http_build_query($query, '', '&', PHP_QUERY_RFC3986)) {
+            $url .= (strpos($url, '?') === false ? '?' : '&').$query;
         }
 
-        return config("apps.url.$identifier", config('app.url')).$path;
+        return $url;
     }
 }
