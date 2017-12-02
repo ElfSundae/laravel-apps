@@ -22,8 +22,18 @@ class AppIdentifier
 
         return app()->instance(
             static::IDENTIFIER_KEY,
-            static::getIdentifierForUrl(app('request')->getUri())
+            static::getForUrl(app('request')->getUri())
         );
+    }
+
+    /**
+     * Refresh the current application identifier.
+     *
+     * @return void
+     */
+    public static function refresh()
+    {
+        app()->forgetInstance(static::IDENTIFIER_KEY);
     }
 
     /**
@@ -32,7 +42,7 @@ class AppIdentifier
      * @param  string  $url
      * @return string
      */
-    protected static function getIdentifierForUrl($url)
+    protected static function getForUrl($url)
     {
         $identifier = null;
 
@@ -49,15 +59,5 @@ class AppIdentifier
         }
 
         return $identifier;
-    }
-
-    /**
-     * Refresh the current application identifier.
-     *
-     * @return void
-     */
-    public static function refresh()
-    {
-        app()->forgetInstance(static::IDENTIFIER_KEY);
     }
 }
