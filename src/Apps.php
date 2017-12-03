@@ -43,7 +43,7 @@ class Apps
     public function id()
     {
         if ($this->id === false) {
-            $this->id = $this->idForUrl($this->getRequest()->getUri());
+            $this->id = $this->idForUrl($this->container['request']->getUri());
         }
 
         if (func_num_args() > 0) {
@@ -75,7 +75,7 @@ class Apps
     {
         $identifier = null;
 
-        foreach ($this->getConfig('url') as $id => $root) {
+        foreach ($this->container['config']['apps.url'] as $id => $root) {
             $root = preg_replace('~^https?://~i', '', $root);
             $pattern = '~^https?://'.preg_quote($root, '~').'([/\?#].*)?$~i';
             if (preg_match($pattern, $url)) {
@@ -88,29 +88,5 @@ class Apps
         }
 
         return $identifier;
-    }
-
-    /**
-     * Get apps configuration for the given key.
-     *
-     * @param  string  $key
-     * @param  mixed  $default
-     * @return mixed
-     */
-    protected function getConfig($key = '', $default = null)
-    {
-        $key = $key ? "apps.$key" : "apps";
-
-        return $this->container['config']->get($key, $default);
-    }
-
-    /**
-     * Get the request instance.
-     *
-     * @return \Illuminate\Http\Request
-     */
-    protected function getRequest()
-    {
-        return $this->container['request'];
     }
 }
