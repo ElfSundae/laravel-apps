@@ -40,9 +40,10 @@ class AppsServiceProvider extends ServiceProvider
     {
         $this->setupAssets();
 
-        $this->app->rebinding('request', function () {
-            AppIdentifier::refresh();
+        $this->app->singleton('apps', function ($app) {
+            return new Apps($app);
         });
+        $this->app->alias('apps', Apps::class);
     }
 
     /**
@@ -57,11 +58,5 @@ class AppsServiceProvider extends ServiceProvider
         }
 
         $this->mergeConfigFrom(__DIR__.'/../config/apps.php', 'apps');
-
-        if (! $this->app['config']->has('apps.domain')) {
-            $this->app['config']['apps.domain'] = array_map(function ($url) {
-                return parse_url($url, PHP_URL_HOST);
-            }, $this->app['config']['apps.url']);
-        }
     }
 }

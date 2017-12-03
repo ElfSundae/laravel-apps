@@ -2,19 +2,20 @@
 
 namespace ElfSundae\Laravel\Apps\Test;
 
-use ElfSundae\Laravel\Apps\AppIdentifier;
+use Mockery as m;
 
 class HelpersTest extends TestCase
 {
     public function test_app_id()
     {
-        app()->instance(AppIdentifier::IDENTIFIER_KEY, 'foo');
+        $apps = m::mock(\stdClass::class);
+        $apps->shouldReceive('id')
+            ->once()
+            ->with('foo')
+            ->andReturn('bar');
 
-        $this->assertSame('foo', app_id());
-        $this->assertTrue(app_id('foo'));
-        $this->assertFalse(app_id('bar'));
-        $this->assertTrue(app_id('foo', 'bar'));
-        $this->assertTrue(app_id(['foo', 'bar']));
+        $this->app->instance('apps', $apps);
+        $this->assertSame('bar', app_id('foo'));
     }
 
     public function test_app_url()
