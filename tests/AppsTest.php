@@ -47,15 +47,15 @@ class AppsTest extends TestCase
 
     public function testRefreshId()
     {
-       $this->setAppsConfig([
-           'url' => [
-               'testing' => $this->app['request']->root(),
-           ],
-       ]);
-       $apps = $this->getApps();
+        $this->setAppsConfig([
+            'url' => [
+                'testing' => $this->app['request']->root(),
+            ],
+        ]);
+        $apps = $this->getApps();
 
-       $this->assertSame($apps, $apps->refreshId());
-       $this->assertSame('testing', $apps->refreshId()->id());
+        $this->assertSame($apps, $apps->refreshId());
+        $this->assertSame('testing', $apps->refreshId()->id());
     }
 
     public function testGetIdForUrl()
