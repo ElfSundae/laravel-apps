@@ -8,6 +8,6 @@ if (! function_exists('app_id')) {
      */
     function app_id()
     {
-        return call_user_func_array([app('apps'), 'id'], func_get_args());
+        return app('apps')->id(...func_get_args());
     }
 }
