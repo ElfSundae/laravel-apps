@@ -104,7 +104,7 @@ class AppsTest extends TestCase
 
         $this->assertSame('http://example.com', $apps->rootUrl());
         $this->assertSame('http://example.com/api', $apps->rootUrl('api'));
-        $this->assertSame('http://example.com', $apps->rootUrl('foo'));
+        $this->assertNull($apps->rootUrl('foo'));
     }
 
     public function testGenerateUrl()

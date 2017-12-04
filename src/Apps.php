@@ -110,10 +110,9 @@ class Apps
      */
     public function rootUrl($appId = null)
     {
-        return $this->container['config']->get(
-            "apps.url.$appId",
-            $this->container['config']['app.url']
-        );
+        $key = $appId ? "apps.url.$appId" : 'app.url';
+
+        return $this->container['config'][$key];
     }
 
     /**
