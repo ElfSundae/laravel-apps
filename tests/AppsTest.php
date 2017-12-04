@@ -2,7 +2,6 @@
 
 namespace ElfSundae\Laravel\Apps\Test;
 
-use Mockery as m;
 use ElfSundae\Laravel\Apps\Apps;
 
 class AppsTest extends TestCase
