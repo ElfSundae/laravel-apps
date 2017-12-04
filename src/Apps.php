@@ -3,7 +3,6 @@
 namespace ElfSundae\Laravel\Apps;
 
 use Illuminate\Support\Str;
-use Illuminate\Support\Collection;
 use Illuminate\Contracts\Container\Container;
 
 class Apps
@@ -74,7 +73,7 @@ class Apps
      */
     public function idForUrl($url)
     {
-        return Collection::make($this->container['config']['apps.url'])
+        return collect($this->container['config']['apps.url'])
             ->filter(function ($root) use ($url) {
                 return $this->urlHasRoot($url, $root);
             })
