@@ -139,6 +139,17 @@ class Apps
     }
 
     /**
+     * Get the URL prefix for the given application identifier.
+     *
+     * @param  string  $appId
+     * @return string
+     */
+    public function prefix($appId = '')
+    {
+        return trim(parse_url($this->root($appId), PHP_URL_PATH), '/');
+    }
+
+    /**
      * Generate an absolute URL to a path for the given application identifier.
      *
      * @param  string  $appId

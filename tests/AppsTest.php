@@ -104,7 +104,7 @@ class AppsTest extends TestCase
 
         $this->assertSame('http://example.com', $apps->root());
         $this->assertSame('http://example.com', $apps->root(null));
-        $this->assertSame('http://example.com', $apps->root('web'));
+        $this->assertSame('http://example.com', $apps->root('foo'));
         $this->assertSame('http://example.com/api', $apps->root('api'));
     }
 
@@ -119,8 +119,21 @@ class AppsTest extends TestCase
         $apps = $this->getApps();
 
         $this->assertSame('example.com', $apps->domain());
-        $this->assertSame('example.com', $apps->domain('web'));
         $this->assertSame('api.example.com', $apps->domain('api'));
+    }
+
+    public function testGetPrefix()
+    {
+        $this->app['config']->set([
+            'app.url' => 'http://example.com',
+            'apps.url' => [
+                'api' => 'http://api.example.com/v1',
+            ],
+        ]);
+        $apps = $this->getApps();
+
+        $this->assertSame('', $apps->prefix());
+        $this->assertSame('v1', $apps->prefix('api'));
     }
 
     public function testGenerateUrl()
