@@ -101,4 +101,34 @@ class Apps
 
         return preg_match('~^'.preg_quote($root, '~').'([/\?#].*)?$~i', $url);
     }
+
+    /**
+     * Generate an absolute URL to the given path.
+     *
+     * @param  string  $path
+     * @param  mixed  $query
+     * @param  mixed  $appId
+     * @return string
+     */
+    public function url($path = '', $query = [], $appId = '')
+    {
+        if (is_string($query)) {
+            list($query, $appId) = [$appId, $query];
+        }
+
+        $url = $this->container['config']->get(
+            "apps.url.$appId",
+            $this->container['config']['app.url']
+        );
+
+        if ($path = ltrim($path, '/')) {
+            $url .= (strpos($path, '?') === 0 ? '' : '/').$path;
+        }
+
+        if ($query && $query = http_build_query($query, '', '&', PHP_QUERY_RFC3986)) {
+            $url .= (strpos($url, '?') === false ? '?' : '&').$query;
+        }
+
+        return $url;
+    }
 }

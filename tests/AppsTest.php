@@ -92,6 +92,36 @@ class AppsTest extends TestCase
         $this->assertSame('api_v2', $apps->idForUrl('HTTPS://EXAMPLE.COM/API/V2/FOO'));
     }
 
+    public function testGenerateUrl()
+    {
+        $this->app['config']->set([
+            'app.url' => 'http://localhost',
+            'apps.url' => [
+                'api' => 'http://example.com/api',
+            ],
+        ]);
+        $apps = $this->getApps();
+
+        $this->assertSame('http://localhost', $apps->url());
+        $this->assertSame('http://localhost', $apps->url('/'));
+        $this->assertSame('http://localhost/path', $apps->url('path'));
+        $this->assertSame('http://localhost/path', $apps->url('/path'));
+        $this->assertSame('http://localhost?foo', $apps->url('?foo'));
+        $this->assertSame('http://localhost?foo', $apps->url('/?foo'));
+        $this->assertSame('http://localhost?foo=bar', $apps->url('/', ['foo' => 'bar']));
+        $this->assertSame('http://localhost/path?foo=bar', $apps->url('path', ['foo' => 'bar']));
+        $this->assertSame('http://localhost/path?foo=bar', $apps->url('path', ['foo' => 'bar'], 'app_id'));
+        $this->assertSame('http://localhost/path?foo=bar', $apps->url('path', 'app_id', ['foo' => 'bar']));
+        $this->assertSame('http://localhost/path?foo&key=a%20b', $apps->url('path?foo', ['key' => 'a b']));
+
+        $this->assertSame('http://example.com/api', $apps->url('', 'api'));
+        $this->assertSame('http://example.com/api', $apps->url('/', 'api'));
+        $this->assertSame('http://example.com/api/path', $apps->url('path', 'api'));
+        $this->assertSame('http://example.com/api?foo', $apps->url('/?foo', 'api'));
+        $this->assertSame('http://example.com/api/path?foo=bar', $apps->url('path', ['foo' => 'bar'], 'api'));
+        $this->assertSame('http://example.com/api/path?foo=bar', $apps->url('path', 'api', ['foo' => 'bar']));
+    }
+
     protected function getApps()
     {
         return new Apps($this->app);
