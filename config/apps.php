@@ -4,13 +4,10 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application URLs
+    | Application URL
     |--------------------------------------------------------------------------
     |
     | The root URL for each sub application.
-    |
-    | The domain of each URL will be automatically avaliable in "apps.domain"
-    | configuration.
     |
     */
 
