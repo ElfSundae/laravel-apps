@@ -128,7 +128,7 @@ class Apps
     }
 
     /**
-     * Generate an absolute URL to the given path.
+     * Generate an absolute URL to a path for the given application identifier.
      *
      * @param  string  $appId
      * @param  string  $path
