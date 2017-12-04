@@ -2,6 +2,7 @@
 
 namespace ElfSundae\Laravel\Apps;
 
+use Illuminate\Support\Collection;
 use Illuminate\Contracts\Container\Container;
 
 class Apps
@@ -72,20 +73,32 @@ class Apps
      */
     public function idForUrl($url)
     {
-        $identifier = null;
+        return Collection::make($this->container['config']['apps.url'])
+            ->filter(function ($root) use ($url) {
+                return $this->urlHasRoot($url, $root);
+            })
+            ->sortByDesc(function ($url) {
+                return strlen($url);
+            })
+            ->keys()
+            ->first();
+    }
 
-        foreach ($this->container['config']['apps.url'] as $id => $root) {
-            $root = preg_replace('~^https?://~i', '', $root);
-            $pattern = '~^https?://'.preg_quote($root, '~').'([/\?#].*)?$~i';
-            if (preg_match($pattern, $url)) {
-                $len = strlen($root);
-                if (! isset($length) || $length < $len) {
-                    $length = $len;
-                    $identifier = $id;
-                }
-            }
+    /**
+     * Determine if an URL has the given root URL.
+     *
+     * @param  string  $url
+     * @param  string  $root
+     * @param  bool  $strict
+     * @return bool
+     */
+    protected function urlHasRoot($url, $root, $strict = false)
+    {
+        if (! $strict) {
+            $url = preg_replace('#^https?://#i', '', $url);
+            $root = preg_replace('#^https?://#i', '', $root);
         }
 
-        return $identifier;
+        return preg_match('~^'.preg_quote($root, '~').'([/\?#].*)?$~i', $url);
     }
 }
