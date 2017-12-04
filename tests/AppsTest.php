@@ -92,6 +92,21 @@ class AppsTest extends TestCase
         $this->assertSame('api_v2', $apps->idForUrl('HTTPS://EXAMPLE.COM/API/V2/FOO'));
     }
 
+    public function testGetRootUrl()
+    {
+        $this->app['config']->set([
+            'app.url' => 'http://example.com',
+            'apps.url' => [
+                'api' => 'http://example.com/api',
+            ],
+        ]);
+        $apps = $this->getApps();
+
+        $this->assertSame('http://example.com', $apps->rootUrl());
+        $this->assertSame('http://example.com/api', $apps->rootUrl('api'));
+        $this->assertSame('http://example.com', $apps->rootUrl('foo'));
+    }
+
     public function testGenerateUrl()
     {
         $this->app['config']->set([

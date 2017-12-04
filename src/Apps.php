@@ -103,6 +103,20 @@ class Apps
     }
 
     /**
+     * Get the root URL for the given application identifier.
+     *
+     * @param  string  $appId
+     * @return string
+     */
+    public function rootUrl($appId = '')
+    {
+        return $this->container['config']->get(
+            "apps.url.$appId",
+            $this->container['config']['app.url']
+        );
+    }
+
+    /**
      * Generate an absolute URL to the given path.
      *
      * @param  string  $path
