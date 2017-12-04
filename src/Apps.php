@@ -77,8 +77,8 @@ class Apps
             ->filter(function ($root) use ($url) {
                 return $this->urlHasRoot($url, $root);
             })
-            ->sortByDesc(function ($url) {
-                return strlen($url);
+            ->sortByDesc(function ($root) {
+                return strlen($root);
             })
             ->keys()
             ->first();
