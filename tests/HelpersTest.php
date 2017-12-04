@@ -11,10 +11,10 @@ class HelpersTest extends TestCase
         $apps = m::mock('stdClass');
         $apps->shouldReceive('id')
             ->once()
-            ->with('foo')
-            ->andReturn('bar');
+            ->with('foo', 'bar')
+            ->andReturn('result');
 
         $this->app->instance('apps', $apps);
-        $this->assertSame('bar', app_id('foo'));
+        $this->assertSame('result', app_id('foo', 'bar'));
     }
 }
