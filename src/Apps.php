@@ -105,10 +105,10 @@ class Apps
     /**
      * Get the root URL for the given application identifier.
      *
-     * @param  string|null  $appId
+     * @param  string  $appId
      * @return string
      */
-    public function rootUrl($appId = null)
+    public function rootUrl($appId = '')
     {
         $key = $appId ? "apps.url.$appId" : 'app.url';
 
