@@ -24,7 +24,6 @@ class Apps
      * Create a new Apps instance.
      *
      * @param  \Illuminate\Contracts\Container\Container  $container
-     * @return void
      */
     public function __construct(Container $container)
     {
