@@ -108,6 +108,21 @@ class AppsTest extends TestCase
         $this->assertSame('http://example.com/api', $apps->rootUrl('api'));
     }
 
+    public function testGetDomain()
+    {
+        $this->app['config']->set([
+            'app.url' => 'http://example.com',
+            'apps.url' => [
+                'api' => 'http://api.example.com/v1',
+            ],
+        ]);
+        $apps = $this->getApps();
+
+        $this->assertSame('example.com', $apps->domain());
+        $this->assertSame('example.com', $apps->domain('web'));
+        $this->assertSame('api.example.com', $apps->domain('api'));
+    }
+
     public function testGenerateUrl()
     {
         $this->app['config']->set([

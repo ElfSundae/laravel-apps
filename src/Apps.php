@@ -128,6 +128,17 @@ class Apps
     }
 
     /**
+     * Get the domain for the given application identifier.
+     *
+     * @param  string  $appId
+     * @return string
+     */
+    public function domain($appId = '')
+    {
+        return parse_url($this->rootUrl($appId), PHP_URL_HOST);
+    }
+
+    /**
      * Generate an absolute URL to a path for the given application identifier.
      *
      * @param  string  $appId
