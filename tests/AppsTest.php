@@ -102,10 +102,10 @@ class AppsTest extends TestCase
         ]);
         $apps = $this->getApps();
 
-        $this->assertSame('http://example.com', $apps->rootUrl());
-        $this->assertSame('http://example.com', $apps->rootUrl(null));
-        $this->assertSame('http://example.com', $apps->rootUrl('web'));
-        $this->assertSame('http://example.com/api', $apps->rootUrl('api'));
+        $this->assertSame('http://example.com', $apps->root());
+        $this->assertSame('http://example.com', $apps->root(null));
+        $this->assertSame('http://example.com', $apps->root('web'));
+        $this->assertSame('http://example.com/api', $apps->root('api'));
     }
 
     public function testGetDomain()

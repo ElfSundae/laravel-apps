@@ -120,7 +120,7 @@ class Apps
      * @param  string  $appId
      * @return string
      */
-    public function rootUrl($appId = '')
+    public function root($appId = '')
     {
         $config = $this->container['config'];
 
@@ -135,7 +135,7 @@ class Apps
      */
     public function domain($appId = '')
     {
-        return parse_url($this->rootUrl($appId), PHP_URL_HOST);
+        return parse_url($this->root($appId), PHP_URL_HOST);
     }
 
     /**
@@ -150,7 +150,8 @@ class Apps
     {
         $url = $this->container['url'];
 
-        return $this->rootUrl($appId).
+        return $this->root($appId).
             Str::replaceFirst($url->to(''), '', $url->to($path, $extra));
     }
+
 }
