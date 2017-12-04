@@ -110,24 +110,24 @@ class AppsTest extends TestCase
     public function testGenerateUrl()
     {
         $this->app['config']->set([
-            'app.url' => 'http://localhost',
+            'app.url' => 'http://example.com',
             'apps.url' => [
                 'api' => 'http://example.com/api',
             ],
         ]);
         $apps = $this->getApps();
 
-        $this->assertSame('http://localhost', $apps->url());
-        $this->assertSame('http://localhost', $apps->url('/'));
-        $this->assertSame('http://localhost/path', $apps->url('path'));
-        $this->assertSame('http://localhost/path', $apps->url('/path'));
-        $this->assertSame('http://localhost?foo', $apps->url('?foo'));
-        $this->assertSame('http://localhost?foo', $apps->url('/?foo'));
-        $this->assertSame('http://localhost?foo=bar', $apps->url('/', ['foo' => 'bar']));
-        $this->assertSame('http://localhost/path?foo=bar', $apps->url('path', ['foo' => 'bar']));
-        $this->assertSame('http://localhost/path?foo=bar', $apps->url('path', ['foo' => 'bar'], 'app_id'));
-        $this->assertSame('http://localhost/path?foo=bar', $apps->url('path', 'app_id', ['foo' => 'bar']));
-        $this->assertSame('http://localhost/path?foo&key=a%20b', $apps->url('path?foo', ['key' => 'a b']));
+        $this->assertSame('http://example.com', $apps->url());
+        $this->assertSame('http://example.com', $apps->url('/'));
+        $this->assertSame('http://example.com/path', $apps->url('path'));
+        $this->assertSame('http://example.com/path', $apps->url('/path'));
+        $this->assertSame('http://example.com?foo', $apps->url('?foo'));
+        $this->assertSame('http://example.com?foo', $apps->url('/?foo'));
+        $this->assertSame('http://example.com?foo=bar', $apps->url('/', ['foo' => 'bar']));
+        $this->assertSame('http://example.com/path?foo=bar', $apps->url('path', ['foo' => 'bar']));
+        $this->assertSame('http://example.com/path?foo=bar', $apps->url('path', ['foo' => 'bar'], 'app_id'));
+        $this->assertSame('http://example.com/path?foo=bar', $apps->url('path', 'app_id', ['foo' => 'bar']));
+        $this->assertSame('http://example.com/path?foo&key=a%20b', $apps->url('path?foo', ['key' => 'a b']));
 
         $this->assertSame('http://example.com/api', $apps->url('', 'api'));
         $this->assertSame('http://example.com/api', $apps->url('/', 'api'));
