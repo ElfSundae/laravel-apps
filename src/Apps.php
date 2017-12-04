@@ -16,7 +16,7 @@ class Apps
     /**
      * The current application identifier.
      *
-     * @var string|null|false
+     * @var string|false
      */
     protected $id = false;
 
