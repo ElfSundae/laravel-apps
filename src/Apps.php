@@ -2,6 +2,7 @@
 
 namespace ElfSundae\Laravel\Apps;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Contracts\Container\Container;
 
@@ -121,38 +122,24 @@ class Apps
      */
     public function rootUrl($appId = '')
     {
-        $key = $appId ? "apps.url.$appId" : 'app.url';
+        $config = $this->container['config'];
 
-        return $this->container['config'][$key];
+        return $config["apps.url.$appId"] ?: $config['app.url'];
     }
 
     /**
      * Generate an absolute URL to the given path.
      *
+     * @param  string  $appId
      * @param  string  $path
-     * @param  mixed  $query
-     * @param  mixed  $appId
+     * @param  mixed  $extra
      * @return string
      */
-    public function url($path = '', $query = [], $appId = '')
+    public function url($appId = '', $path = '', $extra = [])
     {
-        if (is_string($query)) {
-            list($query, $appId) = [$appId, $query];
-        }
+        $url = $this->container['url'];
 
-        $url = $this->container['config']->get(
-            "apps.url.$appId",
-            $this->container['config']['app.url']
-        );
-
-        if ($path = ltrim($path, '/')) {
-            $url .= (strpos($path, '?') === 0 ? '' : '/').$path;
-        }
-
-        if ($query && $query = http_build_query($query, '', '&', PHP_QUERY_RFC3986)) {
-            $url .= (strpos($url, '?') === false ? '?' : '&').$query;
-        }
-
-        return $url;
+        return $this->rootUrl($appId).
+            Str::replaceFirst($url->to(''), '', $url->to($path, $extra));
     }
 }

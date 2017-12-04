@@ -8,7 +8,7 @@ class HelpersTest extends TestCase
 {
     public function test_app_id()
     {
-        $apps = m::mock(\stdClass::class);
+        $apps = m::mock('stdClass');
         $apps->shouldReceive('id')
             ->once()
             ->with('foo')

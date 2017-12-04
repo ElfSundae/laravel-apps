@@ -2,6 +2,7 @@
 
 namespace ElfSundae\Laravel\Apps\Test;
 
+use Mockery as m;
 use ElfSundae\Laravel\Apps\Apps;
 
 class AppsTest extends TestCase
@@ -103,8 +104,9 @@ class AppsTest extends TestCase
         $apps = $this->getApps();
 
         $this->assertSame('http://example.com', $apps->rootUrl());
+        $this->assertSame('http://example.com', $apps->rootUrl(null));
+        $this->assertSame('http://example.com', $apps->rootUrl('web'));
         $this->assertSame('http://example.com/api', $apps->rootUrl('api'));
-        $this->assertNull($apps->rootUrl('foo'));
     }
 
     public function testGenerateUrl()
@@ -118,23 +120,13 @@ class AppsTest extends TestCase
         $apps = $this->getApps();
 
         $this->assertSame('http://example.com', $apps->url());
-        $this->assertSame('http://example.com', $apps->url('/'));
-        $this->assertSame('http://example.com/path', $apps->url('path'));
-        $this->assertSame('http://example.com/path', $apps->url('/path'));
-        $this->assertSame('http://example.com?foo', $apps->url('?foo'));
-        $this->assertSame('http://example.com?foo', $apps->url('/?foo'));
-        $this->assertSame('http://example.com?foo=bar', $apps->url('/', ['foo' => 'bar']));
-        $this->assertSame('http://example.com/path?foo=bar', $apps->url('path', ['foo' => 'bar']));
-        $this->assertSame('http://example.com/path?foo=bar', $apps->url('path', ['foo' => 'bar'], 'app_id'));
-        $this->assertSame('http://example.com/path?foo=bar', $apps->url('path', 'app_id', ['foo' => 'bar']));
-        $this->assertSame('http://example.com/path?foo&key=a%20b', $apps->url('path?foo', ['key' => 'a b']));
-
-        $this->assertSame('http://example.com/api', $apps->url('', 'api'));
-        $this->assertSame('http://example.com/api', $apps->url('/', 'api'));
-        $this->assertSame('http://example.com/api/path', $apps->url('path', 'api'));
-        $this->assertSame('http://example.com/api?foo', $apps->url('/?foo', 'api'));
-        $this->assertSame('http://example.com/api/path?foo=bar', $apps->url('path', ['foo' => 'bar'], 'api'));
-        $this->assertSame('http://example.com/api/path?foo=bar', $apps->url('path', 'api', ['foo' => 'bar']));
+        $this->assertSame('http://example.com', $apps->url(null));
+        $this->assertSame('http://example.com', $apps->url('web'));
+        $this->assertSame('http://example.com/api', $apps->url('api'));
+        $this->assertSame(
+            'http://example.com/api/path/foo/bar?query=value',
+            $apps->url('api', 'path?query=value', ['foo', 'bar'])
+        );
     }
 
     protected function getApps()
