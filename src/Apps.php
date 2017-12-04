@@ -105,10 +105,10 @@ class Apps
     /**
      * Get the root URL for the given application identifier.
      *
-     * @param  string  $appId
+     * @param  string|null  $appId
      * @return string
      */
-    public function rootUrl($appId = '')
+    public function rootUrl($appId = null)
     {
         return $this->container['config']->get(
             "apps.url.$appId",
