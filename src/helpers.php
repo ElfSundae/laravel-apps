@@ -1,7 +1,5 @@
 <?php
 
-use ElfSundae\Laravel\Apps\AppIdentifier;
-
 if (! function_exists('app_id')) {
     /**
      * Get or check the current application identifier.
@@ -10,13 +8,7 @@ if (! function_exists('app_id')) {
      */
     function app_id()
     {
-        $identifier = AppIdentifier::get();
-
-        if (func_num_args() > 0) {
-            return in_array($identifier, is_array(func_get_arg(0)) ? func_get_arg(0) : func_get_args());
-        }
-
-        return $identifier;
+        return call_user_func_array([app('apps'), 'id'], func_get_args());
     }
 }
 

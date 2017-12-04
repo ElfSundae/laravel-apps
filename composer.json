@@ -44,7 +44,10 @@
         "laravel": {
             "providers": [
                 "ElfSundae\\Laravel\\Apps\\AppsServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Apps": "ElfSundae\\Laravel\\Apps\\Facades\\Apps"
+            }
         }
     }
 }
