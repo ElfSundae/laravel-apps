@@ -95,11 +95,22 @@ class Apps
     protected function urlHasRoot($url, $root, $strict = false)
     {
         if (! $strict) {
-            $url = preg_replace('#^https?://#i', '', $url);
-            $root = preg_replace('#^https?://#i', '', $root);
+            $url = $this->removeSchemeForUrl($url);
+            $root = $this->removeSchemeForUrl($root);
         }
 
         return preg_match('~^'.preg_quote($root, '~').'([/\?#].*)?$~i', $url);
+    }
+
+    /**
+     * Remove scheme for an URL.
+     *
+     * @param  string  $url
+     * @return string
+     */
+    protected function removeSchemeForUrl($url)
+    {
+        return preg_replace('#^https?://#i', '', $url);
     }
 
     /**
