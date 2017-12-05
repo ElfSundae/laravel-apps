@@ -14,9 +14,23 @@ class AppsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->macroUrlGenerator();
+
         if ($this->app->runningInConsole()) {
             $this->publishAssets();
         }
+    }
+
+    /**
+     * Register macros for UrlGenerator.
+     *
+     * @return void
+     */
+    protected function macroUrlGenerator()
+    {
+        $this->app['url']->macro('getRootControllerNamespace', function () {
+            return $this->rootNamespace;
+        });
     }
 
     /**

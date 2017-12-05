@@ -2,6 +2,8 @@
 
 namespace ElfSundae\Laravel\Apps;
 
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Contracts\Container\Container;
 
 class Apps
@@ -172,5 +174,66 @@ class Apps
     protected function stringAfter($subject, $search)
     {
         return $search === '' ? $subject : array_reverse(explode($search, $subject, 2))[0];
+    }
+
+    /**
+     * Register routes for each sub application.
+     *
+     * @param  array  $attributes
+     * @return void
+     */
+    public function routes(array $attributes = [])
+    {
+        foreach ($this->container['config']['apps.url'] as $id => $url) {
+            if (! file_exists($file = base_path("routes/$id.php"))) {
+                continue;
+            }
+
+            $this->container['router']->group(
+                $this->getRouteGroupAttributes($id, Arr::get($attributes, $id, [])),
+                function ($router) use ($file) {
+                    require $file;
+                }
+            );
+        }
+    }
+
+    /**
+     * Get route group attributes for the given application identifier.
+     *
+     * @param  string  $appId
+     * @param  array  $attributes
+     * @return array
+     */
+    protected function getRouteGroupAttributes($appId, array $attributes = [])
+    {
+        $attr = [
+            'namespace' => $this->getRootControllerNamespace().'\\'.Str::studly($appId),
+            'middleware' => $this->container['router']->hasMiddlewareGroup($appId) ? $appId : 'web',
+        ];
+
+        if (($domain = $this->domain($appId)) != $this->domain()) {
+            $attr['domain'] = $domain;
+        }
+
+        if ($prefix = $this->prefix($appId)) {
+            $attr['prefix'] = $prefix;
+        }
+
+        return array_merge($attr, $attributes);
+    }
+
+    /**
+     * Get the root controller namespace.
+     *
+     * @return string
+     */
+    protected function getRootControllerNamespace()
+    {
+        if ($this->container['url']->hasMacro('getRootControllerNamespace')) {
+            $namespace = $this->container['url']->getRootControllerNamespace();
+        }
+
+        return isset($namespace) ? $namespace : 'App\Http\Controllers';
     }
 }
