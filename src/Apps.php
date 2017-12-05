@@ -183,10 +183,6 @@ class Apps
      */
     public function routes(array $attributes = [])
     {
-        if (! $this->canRegisterRoutes()) {
-            return;
-        }
-
         foreach ($this->container['config']['apps.url'] as $id => $url) {
             if (! file_exists($file = base_path("routes/$id.php"))) {
                 continue;
@@ -199,17 +195,6 @@ class Apps
                 }
             );
         }
-    }
-
-    /**
-     * Determine if the routes can be registered.
-     *
-     * @return bool
-     */
-    protected function canRegisterRoutes()
-    {
-        return method_exists($this->container, 'routesAreCached') &&
-            ! $this->container->routesAreCached();
     }
 
     /**
