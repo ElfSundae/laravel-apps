@@ -2,8 +2,6 @@
 
 namespace ElfSundae\Laravel\Apps;
 
-use Illuminate\Support\Str;
-use Illuminate\Support\Collection;
 use Illuminate\Contracts\Container\Container;
 
 class Apps
@@ -74,7 +72,7 @@ class Apps
      */
     public function idForUrl($url)
     {
-        return Collection::make($this->container['config']['apps.url'])
+        return collect($this->container['config']['apps.url'])
             ->filter(function ($root) use ($url) {
                 return $this->urlHasRoot($url, $root);
             })
@@ -96,11 +94,11 @@ class Apps
     protected function urlHasRoot($url, $root, $strict = false)
     {
         if (! $strict) {
-            $url = $this->removeSchemeForUrl($url);
-            $root = $this->removeSchemeForUrl($root);
+            $url = $this->removeScheme($url);
+            $root = $this->removeScheme($root);
         }
 
-        return preg_match('~^'.preg_quote($root, '~').'([/\?#].*)?$~i', $url);
+        return (bool) preg_match('~^'.preg_quote($root, '~').'([/\?#].*)?$~i', $url);
     }
 
     /**
@@ -109,7 +107,7 @@ class Apps
      * @param  string  $url
      * @return string
      */
-    protected function removeSchemeForUrl($url)
+    protected function removeScheme($url)
     {
         return preg_replace('#^https?://#i', '', $url);
     }
@@ -120,11 +118,32 @@ class Apps
      * @param  string  $appId
      * @return string
      */
-    public function rootUrl($appId = '')
+    public function root($appId = '')
     {
-        $config = $this->container['config'];
+        return $this->container['config']["apps.url.$appId"]
+            ?: $this->container['config']['app.url'];
+    }
 
-        return $config["apps.url.$appId"] ?: $config['app.url'];
+    /**
+     * Get the domain for the given application identifier.
+     *
+     * @param  string  $appId
+     * @return string
+     */
+    public function domain($appId = '')
+    {
+        return parse_url($this->root($appId), PHP_URL_HOST);
+    }
+
+    /**
+     * Get the URL prefix for the given application identifier.
+     *
+     * @param  string  $appId
+     * @return string
+     */
+    public function prefix($appId = '')
+    {
+        return trim(parse_url($this->root($appId), PHP_URL_PATH), '/');
     }
 
     /**
@@ -137,9 +156,21 @@ class Apps
      */
     public function url($appId = '', $path = '', $extra = [])
     {
-        $url = $this->container['url'];
+        return $this->root($appId).$this->stringAfter(
+            $this->container['url']->to($path, $extra),
+            $this->container['url']->to('')
+        );
+    }
 
-        return $this->rootUrl($appId).
-            Str::replaceFirst($url->to(''), '', $url->to($path, $extra));
+    /**
+     * Return the remainder of a string after a given value.
+     *
+     * @param  string  $subject
+     * @param  string  $search
+     * @return string
+     */
+    protected function stringAfter($subject, $search)
+    {
+        return $search === '' ? $subject : array_reverse(explode($search, $subject, 2))[0];
     }
 }

@@ -102,10 +102,38 @@ class AppsTest extends TestCase
         ]);
         $apps = $this->getApps();
 
-        $this->assertSame('http://example.com', $apps->rootUrl());
-        $this->assertSame('http://example.com', $apps->rootUrl(null));
-        $this->assertSame('http://example.com', $apps->rootUrl('web'));
-        $this->assertSame('http://example.com/api', $apps->rootUrl('api'));
+        $this->assertSame('http://example.com', $apps->root());
+        $this->assertSame('http://example.com', $apps->root(null));
+        $this->assertSame('http://example.com', $apps->root('foo'));
+        $this->assertSame('http://example.com/api', $apps->root('api'));
+    }
+
+    public function testGetDomain()
+    {
+        $this->app['config']->set([
+            'app.url' => 'http://example.com',
+            'apps.url' => [
+                'api' => 'http://api.example.com/v1',
+            ],
+        ]);
+        $apps = $this->getApps();
+
+        $this->assertSame('example.com', $apps->domain());
+        $this->assertSame('api.example.com', $apps->domain('api'));
+    }
+
+    public function testGetPrefix()
+    {
+        $this->app['config']->set([
+            'app.url' => 'http://example.com',
+            'apps.url' => [
+                'api' => 'http://api.example.com/v1',
+            ],
+        ]);
+        $apps = $this->getApps();
+
+        $this->assertSame('', $apps->prefix());
+        $this->assertSame('v1', $apps->prefix('api'));
     }
 
     public function testGenerateUrl()
@@ -113,7 +141,7 @@ class AppsTest extends TestCase
         $this->app['config']->set([
             'app.url' => 'http://example.com',
             'apps.url' => [
-                'api' => 'http://example.com/api',
+                'api' => 'https://api.example.com/v1',
             ],
         ]);
         $apps = $this->getApps();
@@ -121,11 +149,8 @@ class AppsTest extends TestCase
         $this->assertSame('http://example.com', $apps->url());
         $this->assertSame('http://example.com', $apps->url(null));
         $this->assertSame('http://example.com', $apps->url('web'));
-        $this->assertSame('http://example.com/api', $apps->url('api'));
-        $this->assertSame(
-            'http://example.com/api/path/foo/bar?query=value',
-            $apps->url('api', 'path?query=value', ['foo', 'bar'])
-        );
+        $this->assertSame('https://api.example.com/v1', $apps->url('api'));
+        $this->assertSame('https://api.example.com/v1/path/foo/bar', $apps->url('api', 'path', ['foo', 'bar']));
     }
 
     protected function getApps()
