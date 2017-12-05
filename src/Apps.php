@@ -2,6 +2,7 @@
 
 namespace ElfSundae\Laravel\Apps;
 
+use Illuminate\Support\Arr;
 use Illuminate\Contracts\Container\Container;
 
 class Apps
@@ -183,5 +184,29 @@ class Apps
     {
         return method_exists($this->container, 'routesAreCached') &&
             ! $this->container->routesAreCached();
+    }
+
+    /**
+     * Get route group attributes for the given application identifier.
+     *
+     * @param  string  $appId
+     * @param  array  $attributes
+     * @return array
+     */
+    protected function getRouteGroupAttributes($appId, array $attributes = [])
+    {
+        $attr = [
+            'middleware' => $this->container['router']->hasMiddlewareGroup($appId) ? $appId : 'web',
+        ];
+
+        if (($domain = $this->domain($appId)) != $this->domain()) {
+            $attr['domain'] = $domain;
+        }
+
+        if ($prefix = $this->prefix($appId)) {
+            $attr['prefix'] = $prefix;
+        }
+
+        return array_merge($attr, $attributes);
     }
 }
