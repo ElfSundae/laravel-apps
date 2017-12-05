@@ -14,6 +14,8 @@ class AppsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->macroUrlGenerator();
+
         if ($this->app->runningInConsole()) {
             $this->publishAssets();
         }
@@ -29,6 +31,18 @@ class AppsServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../config/apps.php' => base_path('config/apps.php'),
         ], 'laravel-apps');
+    }
+
+    /**
+     * Register macros for UrlGenerator.
+     *
+     * @return void
+     */
+    protected function macroUrlGenerator()
+    {
+        $this->app['url']->macro('getRootControllerNamespace', function () {
+            return $this->rootNamespace;
+        });
     }
 
     /**
