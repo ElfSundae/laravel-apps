@@ -230,7 +230,7 @@ class Apps
      */
     protected function getRootControllerNamespace()
     {
-        if ($this->container['url']::hasMacro('getRootControllerNamespace')) {
+        if ($this->container['url']->hasMacro('getRootControllerNamespace')) {
             $namespace = $this->container['url']->getRootControllerNamespace();
         }
 

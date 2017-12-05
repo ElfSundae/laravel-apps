@@ -28,7 +28,7 @@ class AppsServiceProvider extends ServiceProvider
      */
     protected function macroUrlGenerator()
     {
-        $this->app['url']::macro('getRootControllerNamespace', function () {
+        $this->app['url']->macro('getRootControllerNamespace', function () {
             return $this->rootNamespace;
         });
     }
