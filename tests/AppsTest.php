@@ -150,10 +150,7 @@ class AppsTest extends TestCase
         $this->assertSame('http://example.com', $apps->url(null));
         $this->assertSame('http://example.com', $apps->url('web'));
         $this->assertSame('https://api.example.com/v1', $apps->url('api'));
-        $this->assertSame(
-            'https://api.example.com/v1/path/foo/bar?query=value',
-            $apps->url('api', 'path?query=value', ['foo', 'bar'])
-        );
+        $this->assertSame('https://api.example.com/v1/path/foo/bar', $apps->url('api', 'path', ['foo', 'bar']));
     }
 
     protected function getApps()
