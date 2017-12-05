@@ -3,6 +3,7 @@
 namespace ElfSundae\Laravel\Apps;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Contracts\Container\Container;
 
 class Apps
@@ -207,6 +208,7 @@ class Apps
     protected function getRouteGroupAttributes($appId, array $attributes = [])
     {
         $attr = [
+            'namespace' => $this->getRootControllerNamespace().'\\'.Str::studly($appId),
             'middleware' => $this->container['router']->hasMiddlewareGroup($appId) ? $appId : 'web',
         ];
 
@@ -219,5 +221,19 @@ class Apps
         }
 
         return array_merge($attr, $attributes);
+    }
+
+    /**
+     * Get the root controller namespace.
+     *
+     * @return string
+     */
+    protected function getRootControllerNamespace()
+    {
+        if ($this->container['url']::hasMacro('getRootControllerNamespace')) {
+            $namespace = $this->container['url']->getRootControllerNamespace();
+        }
+
+        return isset($namespace) ? $namespace : 'App\Http\Controllers';
     }
 }
