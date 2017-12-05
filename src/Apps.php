@@ -121,9 +121,8 @@ class Apps
      */
     public function root($appId = '')
     {
-        $config = $this->container['config'];
-
-        return $config["apps.url.$appId"] ?: $config['app.url'];
+        return $this->container['config']["apps.url.$appId"]
+            ?: $this->container['config']['app.url'];
     }
 
     /**
