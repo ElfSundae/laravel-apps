@@ -2,7 +2,6 @@
 
 namespace ElfSundae\Laravel\Apps;
 
-use Illuminate\Support\Str;
 use Illuminate\Contracts\Container\Container;
 
 class Apps
