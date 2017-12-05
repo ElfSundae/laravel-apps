@@ -157,9 +157,21 @@ class Apps
      */
     public function url($appId = '', $path = '', $extra = [])
     {
-        return $this->root($appId).Str::after(
+        return $this->root($appId).$this->stringAfter(
             $this->container['url']->to($path, $extra),
             $this->container['url']->to('')
         );
+    }
+
+    /**
+     * Return the remainder of a string after a given value.
+     *
+     * @param  string  $subject
+     * @param  string  $search
+     * @return string
+     */
+    protected function stringAfter($subject, $search)
+    {
+        return $search === '' ? $subject : array_reverse(explode($search, $subject, 2))[0];
     }
 }

@@ -141,7 +141,7 @@ class AppsTest extends TestCase
         $this->app['config']->set([
             'app.url' => 'http://example.com',
             'apps.url' => [
-                'api' => 'http://example.com/api',
+                'api' => 'https://api.example.com/v1',
             ],
         ]);
         $apps = $this->getApps();
@@ -149,9 +149,9 @@ class AppsTest extends TestCase
         $this->assertSame('http://example.com', $apps->url());
         $this->assertSame('http://example.com', $apps->url(null));
         $this->assertSame('http://example.com', $apps->url('web'));
-        $this->assertSame('http://example.com/api', $apps->url('api'));
+        $this->assertSame('https://api.example.com/v1', $apps->url('api'));
         $this->assertSame(
-            'http://example.com/api/path/foo/bar?query=value',
+            'https://api.example.com/v1/path/foo/bar?query=value',
             $apps->url('api', 'path?query=value', ['foo', 'bar'])
         );
     }
