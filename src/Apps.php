@@ -173,4 +173,15 @@ class Apps
     {
         return $search === '' ? $subject : array_reverse(explode($search, $subject, 2))[0];
     }
+
+    /**
+     * Determine if the routes can be registered.
+     *
+     * @return bool
+     */
+    protected function canRegisterRoutes()
+    {
+        return method_exists($this->container, 'routesAreCached') &&
+            ! $this->container->routesAreCached();
+    }
 }
