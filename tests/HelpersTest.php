@@ -6,6 +6,12 @@ use Mockery as m;
 
 class HelpersTest extends TestCase
 {
+    public function test_apps()
+    {
+        $this->app->instance('apps', 'foo');
+        $this->assertSame('foo', apps());
+    }
+
     public function test_app_id()
     {
         $apps = m::mock('stdClass');
