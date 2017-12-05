@@ -157,9 +157,9 @@ class Apps
      */
     public function url($appId = '', $path = '', $extra = [])
     {
-        $url = $this->container['url'];
-
-        return $this->root($appId).
-            Str::replaceFirst($url->to(''), '', $url->to($path, $extra));
+        return $this->root($appId).Str::after(
+            $this->container['url']->to($path, $extra),
+            $this->container['url']->to('')
+        );
     }
 }
