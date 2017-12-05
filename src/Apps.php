@@ -176,6 +176,32 @@ class Apps
     }
 
     /**
+     * Register routes for each sub application.
+     *
+     * @param  array  $attributes
+     * @return void
+     */
+    public function routes(array $attributes = [])
+    {
+        if (! $this->canRegisterRoutes()) {
+            return;
+        }
+
+        foreach ($this->container['config']['apps.url'] as $id => $url) {
+            if (! file_exists($file = base_path("routes/$id.php"))) {
+                continue;
+            }
+
+            $this->container['router']->group(
+                $this->getRouteGroupAttributes($id, Arr::get($attributes, $id, [])),
+                function ($router) use ($file) {
+                    require $file;
+                }
+            );
+        }
+    }
+
+    /**
      * Determine if the routes can be registered.
      *
      * @return bool
