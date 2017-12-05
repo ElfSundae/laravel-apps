@@ -22,18 +22,6 @@ class AppsServiceProvider extends ServiceProvider
     }
 
     /**
-     * Publish assets from package.
-     *
-     * @return void
-     */
-    protected function publishAssets()
-    {
-        $this->publishes([
-            __DIR__.'/../config/apps.php' => base_path('config/apps.php'),
-        ], 'laravel-apps');
-    }
-
-    /**
      * Register macros for UrlGenerator.
      *
      * @return void
@@ -43,6 +31,18 @@ class AppsServiceProvider extends ServiceProvider
         $this->app['url']->macro('getRootControllerNamespace', function () {
             return $this->rootNamespace;
         });
+    }
+
+    /**
+     * Publish assets from package.
+     *
+     * @return void
+     */
+    protected function publishAssets()
+    {
+        $this->publishes([
+            __DIR__.'/../config/apps.php' => base_path('config/apps.php'),
+        ], 'laravel-apps');
     }
 
     /**
