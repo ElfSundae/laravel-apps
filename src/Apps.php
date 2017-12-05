@@ -99,7 +99,7 @@ class Apps
             $root = $this->removeScheme($root);
         }
 
-        return preg_match('~^'.preg_quote($root, '~').'([/\?#].*)?$~i', $url);
+        return (bool) preg_match('~^'.preg_quote($root, '~').'([/\?#].*)?$~i', $url);
     }
 
     /**
