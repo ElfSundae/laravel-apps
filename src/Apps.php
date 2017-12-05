@@ -163,5 +163,4 @@ class Apps
         return $this->root($appId).
             Str::replaceFirst($url->to(''), '', $url->to($path, $extra));
     }
-
 }
