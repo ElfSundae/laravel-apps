@@ -20,7 +20,7 @@ class AppsServiceProviderTest extends TestCase
     {
         $this->registerAppsService();
         $url = $this->app['url'];
-        $this->assertTrue($url->hasMacro('getRootControllerNamespace'));
+        $this->assertTrue($url::hasMacro('getRootControllerNamespace'));
         $url->setRootControllerNamespace('App');
         $this->assertSame('App', $url->getRootControllerNamespace());
     }
