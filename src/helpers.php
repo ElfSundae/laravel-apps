@@ -1,5 +1,17 @@
 <?php
 
+if (! function_exists('apps')) {
+    /**
+     * Obtain the Apps instance.
+     *
+     * @return \ElfSundae\Laravel\Apps\Apps
+     */
+    function apps()
+    {
+        return app('apps');
+    }
+}
+
 if (! function_exists('app_id')) {
     /**
      * Get or check the current application identifier.
