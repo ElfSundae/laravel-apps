@@ -11,6 +11,15 @@ class AppManagerTest extends TestCase
         $this->assertInstanceOf(AppManager::class, $this->getManager());
     }
 
+    public function testMacroable()
+    {
+        AppManager::macro('fooMethod', function ($arg) {
+            return $arg;
+        });
+
+        $this->assertSame('foo', $this->getManager()->fooMethod('foo'));
+    }
+
     public function testGetId()
     {
         $this->setAppsConfig([

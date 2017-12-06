@@ -4,10 +4,13 @@ namespace ElfSundae\Laravel\Apps;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Support\Traits\Macroable;
 use Illuminate\Contracts\Container\Container;
 
 class AppManager
 {
+    use Macroable;
+
     /**
      * The container instance.
      *
