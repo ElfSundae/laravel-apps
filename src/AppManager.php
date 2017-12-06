@@ -118,6 +118,28 @@ class AppManager
     }
 
     /**
+     * Get all application URLs.
+     *
+     * @return array
+     */
+    public function appUrls()
+    {
+        return $this->container['config']->get('apps.url', []);
+    }
+
+    /**
+     * Get the root URL for the given application.
+     *
+     * @param  string  $app
+     * @return mixed
+     */
+    public function appUrl($app = '')
+    {
+        return Arr::get($this->appUrls(), (string) $app)
+            ?: $this->container['config']['app.url'];
+    }
+
+    /**
      * Get the root URL for the given application identifier.
      *
      * @param  string  $appId
