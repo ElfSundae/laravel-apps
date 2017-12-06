@@ -246,6 +246,7 @@ class AppManager
     public static function registerMacros($app)
     {
         $app['url']->macro('getRootControllerNamespace', function () {
+            /* @var $this \Illuminate\Routing\UrlGenerator */
             return $this->rootNamespace;
         });
     }
