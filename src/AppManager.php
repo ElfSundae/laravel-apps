@@ -6,7 +6,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Contracts\Container\Container;
 
-class Apps
+class AppManager
 {
     /**
      * The container instance.
@@ -23,7 +23,7 @@ class Apps
     protected $id = false;
 
     /**
-     * Create a new Apps instance.
+     * Create a new app manager instance.
      *
      * @param  \Illuminate\Contracts\Container\Container  $container
      */

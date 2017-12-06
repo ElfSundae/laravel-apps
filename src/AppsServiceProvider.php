@@ -55,9 +55,9 @@ class AppsServiceProvider extends ServiceProvider
         $this->setupAssets();
 
         $this->app->singleton('apps', function ($app) {
-            return new Apps($app);
+            return new AppManager($app);
         });
-        $this->app->alias('apps', Apps::class);
+        $this->app->alias('apps', AppManager::class);
     }
 
     /**

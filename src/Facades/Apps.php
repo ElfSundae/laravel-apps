@@ -5,7 +5,7 @@ namespace ElfSundae\Laravel\Apps\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \ElfSundae\Laravel\Apps\Apps
+ * @see \ElfSundae\Laravel\Apps\AppManager
  */
 class Apps extends Facade
 {
