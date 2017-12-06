@@ -236,4 +236,17 @@ class AppManager
 
         return isset($namespace) ? $namespace : 'App\Http\Controllers';
     }
+
+    /**
+     * Register macros.
+     *
+     * @param  \Illuminate\Contracts\Container\Container  $app
+     * @return void
+     */
+    public static function registerMacros($app)
+    {
+        $app['url']->macro('getRootControllerNamespace', function () {
+            return $this->rootNamespace;
+        });
+    }
 }
