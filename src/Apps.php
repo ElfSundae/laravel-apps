@@ -208,13 +208,10 @@ class Apps
     protected function getRouteGroupAttributes($appId, array $attributes = [])
     {
         $attr = [
+            'domain' => $this->domain($appId),
             'namespace' => $this->getRootControllerNamespace().'\\'.Str::studly($appId),
             'middleware' => $this->container['router']->hasMiddlewareGroup($appId) ? $appId : 'web',
         ];
-
-        if (($domain = $this->domain($appId)) != $this->domain()) {
-            $attr['domain'] = $domain;
-        }
 
         if ($prefix = $this->prefix($appId)) {
             $attr['prefix'] = $prefix;
