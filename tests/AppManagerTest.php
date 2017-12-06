@@ -20,6 +20,76 @@ class AppManagerTest extends TestCase
         $this->assertSame('foo', $this->getManager()->fooMethod('foo'));
     }
 
+    public function testGetAllAppUrls()
+    {
+        $urls = [
+            'web' => 'http://example.com',
+            'admin' => 'http://admin.example.com',
+        ];
+        $this->setAppsConfig(['url' => $urls]);
+        $this->assertEquals($urls, $this->getManager()->appUrls());
+    }
+
+    public function testGetAppUrl()
+    {
+        $this->app['config']->set([
+            'app.url' => 'http://example.com',
+            'apps.url' => [
+                'api' => 'http://example.com/api',
+            ],
+        ]);
+        $manager = $this->getManager();
+
+        $this->assertSame('http://example.com', $manager->appUrl());
+        $this->assertSame('http://example.com', $manager->appUrl(null));
+        $this->assertSame('http://example.com', $manager->appUrl('foo'));
+        $this->assertSame('http://example.com/api', $manager->appUrl('api'));
+    }
+
+    public function testGetRootUrl()
+    {
+        $this->app['config']->set([
+            'app.url' => 'http://example.com',
+            'apps.url' => [
+                'api' => 'http://example.com/api',
+            ],
+        ]);
+        $manager = $this->getManager();
+
+        $this->assertSame('http://example.com', $manager->root());
+        $this->assertSame('http://example.com', $manager->root(null));
+        $this->assertSame('http://example.com', $manager->root('foo'));
+        $this->assertSame('http://example.com/api', $manager->root('api'));
+    }
+
+    public function testGetDomain()
+    {
+        $this->app['config']->set([
+            'app.url' => 'http://example.com',
+            'apps.url' => [
+                'api' => 'http://api.example.com/v1',
+            ],
+        ]);
+        $manager = $this->getManager();
+
+        $this->assertSame('example.com', $manager->domain());
+        $this->assertSame('api.example.com', $manager->domain('api'));
+    }
+
+    public function testGetPrefix()
+    {
+        $this->app['config']->set([
+            'app.url' => 'http://example.com',
+            'apps.url' => [
+                'api' => 'http://api.example.com/foo/bar',
+            ],
+        ]);
+        $manager = $this->getManager();
+
+        $this->assertSame('', $manager->prefix());
+        $this->assertSame('foo/bar', $manager->prefix('api'));
+    }
+
     public function testGetId()
     {
         $this->setAppsConfig([
@@ -99,50 +169,6 @@ class AppManagerTest extends TestCase
         $this->assertSame('web', $manager->idForUrl('https://example.com/apifoo'));
         $this->assertSame('api_v2', $manager->idForUrl('http://example.com/api/v2/foo'));
         $this->assertSame('api_v2', $manager->idForUrl('HTTPS://EXAMPLE.COM/API/V2/FOO'));
-    }
-
-    public function testGetRootUrl()
-    {
-        $this->app['config']->set([
-            'app.url' => 'http://example.com',
-            'apps.url' => [
-                'api' => 'http://example.com/api',
-            ],
-        ]);
-        $manager = $this->getManager();
-
-        $this->assertSame('http://example.com', $manager->root());
-        $this->assertSame('http://example.com', $manager->root(null));
-        $this->assertSame('http://example.com', $manager->root('foo'));
-        $this->assertSame('http://example.com/api', $manager->root('api'));
-    }
-
-    public function testGetDomain()
-    {
-        $this->app['config']->set([
-            'app.url' => 'http://example.com',
-            'apps.url' => [
-                'api' => 'http://api.example.com/v1',
-            ],
-        ]);
-        $manager = $this->getManager();
-
-        $this->assertSame('example.com', $manager->domain());
-        $this->assertSame('api.example.com', $manager->domain('api'));
-    }
-
-    public function testGetPrefix()
-    {
-        $this->app['config']->set([
-            'app.url' => 'http://example.com',
-            'apps.url' => [
-                'api' => 'http://api.example.com/v1',
-            ],
-        ]);
-        $manager = $this->getManager();
-
-        $this->assertSame('', $manager->prefix());
-        $this->assertSame('v1', $manager->prefix('api'));
     }
 
     public function testGenerateUrl()

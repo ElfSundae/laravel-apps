@@ -40,6 +40,61 @@ class AppManager
     }
 
     /**
+     * Get all application URLs.
+     *
+     * @return array
+     */
+    public function appUrls()
+    {
+        return $this->container['config']->get('apps.url', []);
+    }
+
+    /**
+     * Get the root URL for the given application.
+     *
+     * @param  string  $app
+     * @return string
+     */
+    public function appUrl($app = '')
+    {
+        return Arr::get($this->appUrls(), (string) $app)
+            ?: $this->container['config']['app.url'];
+    }
+
+    /**
+     * Get the root URL for the given application.
+     *
+     * @param  string  $app
+     * @return string
+     */
+    public function root($app = '')
+    {
+        return $this->appUrl($app);
+    }
+
+    /**
+     * Get the URL domain for the given application.
+     *
+     * @param  string  $app
+     * @return string
+     */
+    public function domain($app = '')
+    {
+        return parse_url($this->appUrl($app), PHP_URL_HOST);
+    }
+
+    /**
+     * Get the URL prefix for the given application.
+     *
+     * @param  string  $app
+     * @return string
+     */
+    public function prefix($app = '')
+    {
+        return trim(parse_url($this->appUrl($app), PHP_URL_PATH), '/');
+    }
+
+    /**
      * Get or check the current application identifier.
      *
      * @return string|bool
@@ -70,14 +125,14 @@ class AppManager
     }
 
     /**
-     * Get application identifier for the given URL.
+     * Get the application identifier for the given URL.
      *
      * @param  string  $url
      * @return string
      */
     public function idForUrl($url)
     {
-        return collect($this->container['config']['apps.url'])
+        return collect($this->appUrls())
             ->filter(function ($root) use ($url) {
                 return $this->urlHasRoot($url, $root);
             })
@@ -118,72 +173,16 @@ class AppManager
     }
 
     /**
-     * Get all application URLs.
-     *
-     * @return array
-     */
-    public function appUrls()
-    {
-        return $this->container['config']->get('apps.url', []);
-    }
-
-    /**
-     * Get the root URL for the given application.
+     * Generate an absolute URL to a path for the given application.
      *
      * @param  string  $app
-     * @return mixed
-     */
-    public function appUrl($app = '')
-    {
-        return Arr::get($this->appUrls(), (string) $app)
-            ?: $this->container['config']['app.url'];
-    }
-
-    /**
-     * Get the root URL for the given application identifier.
-     *
-     * @param  string  $appId
-     * @return string
-     */
-    public function root($appId = '')
-    {
-        return $this->container['config']["apps.url.$appId"]
-            ?: $this->container['config']['app.url'];
-    }
-
-    /**
-     * Get the domain for the given application identifier.
-     *
-     * @param  string  $appId
-     * @return string
-     */
-    public function domain($appId = '')
-    {
-        return parse_url($this->root($appId), PHP_URL_HOST);
-    }
-
-    /**
-     * Get the URL prefix for the given application identifier.
-     *
-     * @param  string  $appId
-     * @return string
-     */
-    public function prefix($appId = '')
-    {
-        return trim(parse_url($this->root($appId), PHP_URL_PATH), '/');
-    }
-
-    /**
-     * Generate an absolute URL to a path for the given application identifier.
-     *
-     * @param  string  $appId
      * @param  string  $path
      * @param  mixed  $extra
      * @return string
      */
-    public function url($appId = '', $path = '', $extra = [])
+    public function url($app = '', $path = '', $extra = [])
     {
-        return $this->root($appId).$this->stringAfter(
+        return $this->root($app).$this->stringAfter(
             $this->container['url']->to($path, $extra),
             $this->container['url']->to('')
         );
@@ -209,7 +208,7 @@ class AppManager
      */
     public function routes(array $attributes = [])
     {
-        foreach ($this->container['config']['apps.url'] as $id => $url) {
+        foreach ($this->appUrls() as $id => $url) {
             if (! file_exists($file = base_path("routes/$id.php"))) {
                 continue;
             }
@@ -224,21 +223,21 @@ class AppManager
     }
 
     /**
-     * Get route group attributes for the given application identifier.
+     * Get route group attributes for the given application.
      *
-     * @param  string  $appId
+     * @param  string  $app
      * @param  array  $attributes
      * @return array
      */
-    protected function getRouteGroupAttributes($appId, array $attributes = [])
+    protected function getRouteGroupAttributes($app, array $attributes = [])
     {
         $attr = [
-            'domain' => $this->domain($appId),
-            'namespace' => $this->getRootControllerNamespace().'\\'.Str::studly($appId),
-            'middleware' => $this->container['router']->hasMiddlewareGroup($appId) ? $appId : 'web',
+            'domain' => $this->domain($app),
+            'namespace' => $this->getRootControllerNamespace().'\\'.Str::studly($app),
+            'middleware' => $this->container['router']->hasMiddlewareGroup($app) ? $app : 'web',
         ];
 
-        if ($prefix = $this->prefix($appId)) {
+        if ($prefix = $this->prefix($app)) {
             $attr['prefix'] = $prefix;
         }
 
