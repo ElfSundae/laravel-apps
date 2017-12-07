@@ -233,7 +233,7 @@ class AppManager
     {
         $attr = [
             'domain' => $this->domain($app),
-            'namespace' => $this->getRootControllerNamespace().'\\'.Str::studly($app),
+            'namespace' => $this->getRootControllerNamespace($app),
             'middleware' => $this->container['router']->hasMiddlewareGroup($app) ? $app : 'web',
         ];
 
@@ -245,17 +245,14 @@ class AppManager
     }
 
     /**
-     * Get the root controller namespace.
+     * Get the root controller namespace for the given application.
      *
+     * @param  string  $app
      * @return string
      */
-    protected function getRootControllerNamespace()
+    protected function getRootControllerNamespace($app)
     {
-        if ($this->container['url']->hasMacro('getRootControllerNamespace')) {
-            $namespace = $this->container['url']->getRootControllerNamespace();
-        }
-
-        return isset($namespace) ? $namespace : 'App\Http\Controllers';
+        return trim($this->container['url']->getRootControllerNamespace().'\\'.Str::studly($app), '\\');
     }
 
     /**
