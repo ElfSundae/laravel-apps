@@ -254,18 +254,4 @@ class AppManager
     {
         return trim($this->container['url']->getRootControllerNamespace().'\\'.Str::studly($app), '\\');
     }
-
-    /**
-     * Register macros.
-     *
-     * @param  \Illuminate\Contracts\Container\Container  $app
-     * @return void
-     */
-    public static function registerMacros($app)
-    {
-        $app['url']->macro('getRootControllerNamespace', function () {
-            /* @var $this \Illuminate\Routing\UrlGenerator */
-            return $this->rootNamespace;
-        });
-    }
 }

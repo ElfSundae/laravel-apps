@@ -188,15 +188,6 @@ class AppManagerTest extends TestCase
         $this->assertSame('https://api.example.com/v1/path/foo/bar', $manager->url('api', 'path', ['foo', 'bar']));
     }
 
-    public function testRegisteredMacros()
-    {
-        AppManager::registerMacros($this->app);
-
-        $this->assertTrue($this->app['url']->hasMacro('getRootControllerNamespace'));
-        $this->app['url']->setRootControllerNamespace('Foo');
-        $this->assertSame('Foo', $this->app['url']->getRootControllerNamespace());
-    }
-
     protected function getManager()
     {
         return new AppManager($this->app);
