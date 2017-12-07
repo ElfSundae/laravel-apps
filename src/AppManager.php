@@ -177,13 +177,13 @@ class AppManager
      *
      * @param  string  $app
      * @param  string  $path
-     * @param  mixed  $extra
+     * @param  mixed  $parameters
      * @return string
      */
-    public function url($app = '', $path = '', $extra = [])
+    public function url($app = '', $path = '', $parameters = [])
     {
         return $this->root($app).$this->stringAfter(
-            $this->container['url']->to($path, $extra),
+            $this->container['url']->to($path, $parameters),
             $this->container['url']->to('')
         );
     }
