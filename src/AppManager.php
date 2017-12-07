@@ -234,8 +234,8 @@ class AppManager
     {
         $attr = [
             'domain' => $this->domain($app),
-            'namespace' => $this->getRootControllerNamespace($app),
             'middleware' => $this->container['router']->hasMiddlewareGroup($app) ? $app : 'web',
+            'namespace' => $this->getRootControllerNamespace($app),
         ];
 
         if ($prefix = $this->prefix($app)) {
