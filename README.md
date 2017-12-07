@@ -16,7 +16,7 @@ You can install this package using the [Composer](https://getcomposer.org) manag
 $ composer require elfsundae/laravel-apps
 ```
 
-For Lumen or earlier Laravel than v5.5, you need to register the service provider manually:
+For earlier Laravel than v5.5, you need to register the service provider manually:
 
 ```php
 ElfSundae\Laravel\Apps\AppsServiceProvider::class,
