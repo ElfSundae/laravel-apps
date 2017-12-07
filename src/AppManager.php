@@ -23,7 +23,7 @@ class AppManager
      *
      * @var string|false
      */
-    protected $id = false;
+    protected $appId = false;
 
     /**
      * Create a new app manager instance.
@@ -80,7 +80,7 @@ class AppManager
      */
     public function domain($app = '')
     {
-        return parse_url($this->appUrl($app), PHP_URL_HOST);
+        return parse_url($this->root($app), PHP_URL_HOST);
     }
 
     /**
@@ -91,7 +91,7 @@ class AppManager
      */
     public function prefix($app = '')
     {
-        return trim(parse_url($this->appUrl($app), PHP_URL_PATH), '/');
+        return trim(parse_url($this->root($app), PHP_URL_PATH), '/');
     }
 
     /**
@@ -101,15 +101,15 @@ class AppManager
      */
     public function id()
     {
-        if ($this->id === false) {
-            $this->id = $this->idForUrl($this->container['request']->getUri());
+        if ($this->appId === false) {
+            $this->appId = $this->appIdForUrl($this->container['request']->getUri());
         }
 
         if (func_num_args() > 0) {
-            return in_array($this->id, is_array(func_get_arg(0)) ? func_get_arg(0) : func_get_args());
+            return in_array($this->appId, is_array(func_get_arg(0)) ? func_get_arg(0) : func_get_args());
         }
 
-        return $this->id;
+        return $this->appId;
     }
 
     /**
@@ -119,7 +119,7 @@ class AppManager
      */
     public function refreshId()
     {
-        $this->id = false;
+        $this->appId = false;
 
         return $this;
     }
@@ -130,7 +130,7 @@ class AppManager
      * @param  string  $url
      * @return string
      */
-    public function idForUrl($url)
+    public function appIdForUrl($url)
     {
         return collect($this->appUrls())
             ->filter(function ($root) use ($url) {
