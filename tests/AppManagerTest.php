@@ -3,6 +3,7 @@
 namespace ElfSundae\Laravel\Apps\Test;
 
 use ElfSundae\Laravel\Apps\AppManager;
+use Illuminate\Routing\RouteCollection;
 
 class AppManagerTest extends TestCase
 {
@@ -211,13 +212,15 @@ class AppManagerTest extends TestCase
             $this->app['files']->copy(__DIR__.'/fixtures/routes.php', base_path("routes/$id.php"));
         }
 
-        $this->app['router']->middlewareGroup('admin', []);
+        $this->app['router']->middlewareGroup('web', []);
+        $this->app['router']->middlewareGroup('api', []);
         $this->app['router']->middlewareGroup('api-middleware', []);
+        $this->app['url']->setRootControllerNamespace('Foo\Controllers');
 
         $this->app['apps']->routes([
             'api' => [
                 'middleware' => 'api-middleware',
-                'namespace' => 'Foo\Bar',
+                'namespace' => 'Foo\Api',
                 'as' => 'api.',
             ],
         ]);
@@ -226,15 +229,15 @@ class AppManagerTest extends TestCase
             ->assertJson([
                 'domain' => 'example.com',
                 'middleware' => 'web',
-                'namespace' => 'App\Http\Controllers\Web',
+                'namespace' => 'Foo\Controllers\Web',
                 'prefix' => null,
             ]);
 
         $this->get('http://admin.example.com')
             ->assertJson([
                 'domain' => 'admin.example.com',
-                'middleware' => 'admin',
-                'namespace' => 'App\Http\Controllers\Admin',
+                'middleware' => 'web',
+                'namespace' => 'Foo\Controllers\Admin',
                 'prefix' => null,
             ]);
 
@@ -242,13 +245,25 @@ class AppManagerTest extends TestCase
             ->assertJson([
                 'domain' => 'example.com',
                 'middleware' => 'api-middleware',
-                'namespace' => 'Foo\Bar',
+                'namespace' => 'Foo\Api',
                 'prefix' => 'api',
                 'as' => 'api.index',
             ]);
 
         $this->get('http://assets.example.com')
             ->assertStatus(404);
+
+        $this->app['router']->setRoutes(new RouteCollection);
+        $this->app['url']->setRootControllerNamespace(null);
+        $this->app['apps']->routes();
+
+        $this->get('http://example.com/api')
+            ->assertJson([
+                'domain' => 'example.com',
+                'middleware' => 'api',
+                'namespace' => 'App\Http\Controllers\Api',
+                'prefix' => 'api',
+            ]);
     }
 
     protected function getManager()
