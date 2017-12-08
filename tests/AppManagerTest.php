@@ -28,17 +28,6 @@ class AppManagerTest extends TestCase
         $this->assertSame('foo', $this->getManager()->fooMethod('foo'));
     }
 
-    public function testRegisteredMacros()
-    {
-        AppManager::registerMacros($this->app);
-
-        $this->app['url']->setRootControllerNamespace('Foo');
-        $this->assertSame('Foo', $this->app['url']->getRootControllerNamespace());
-
-        $this->app['router']->middlewareGroup('foo', []);
-        $this->assertTrue($this->app['router']->hasMiddlewareGroup('foo'));
-    }
-
     public function testGetAllAppUrls()
     {
         $urls = [

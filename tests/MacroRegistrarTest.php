@@ -23,6 +23,18 @@ class MacroRegistrarTest extends TestCase
         $testing->setVar('bar');
         $this->assertSame('bar', $testing->var);
     }
+
+    public function testRegisteredMacros()
+    {
+        $reg = new MacroRegistrar;
+        $reg->registerMacros($this->app);
+
+        $this->app['url']->setRootControllerNamespace('Foo');
+        $this->assertSame('Foo', $this->app['url']->getRootControllerNamespace());
+
+        $this->app['router']->middlewareGroup('foo', []);
+        $this->assertTrue($this->app['router']->hasMiddlewareGroup('foo'));
+    }
 }
 
 class Testing
