@@ -258,31 +258,4 @@ class AppManager
 
         return trim($namespace.'\\'.Str::studly($app), '\\');
     }
-
-    /**
-     * Register macros.
-     *
-     * @param  \Illuminate\Contracts\Container\Container  $container
-     * @return void
-     */
-    public static function registerMacros(Container $container)
-    {
-        $registrar = new MacroRegistrar;
-
-        $registrar->register(
-            $container['url'],
-            'getRootControllerNamespace',
-            function () {
-                return $this->rootNamespace;
-            }
-        );
-
-        $registrar->register(
-            $container['router'],
-            'hasMiddlewareGroup',
-            function ($name) {
-                return array_key_exists($name, $this->middlewareGroups);
-            }
-        );
-    }
 }

@@ -2,8 +2,35 @@
 
 namespace ElfSundae\Laravel\Apps;
 
+use Illuminate\Contracts\Container\Container;
+
 class MacroRegistrar
 {
+    /**
+     * Register needed macros.
+     *
+     * @param  \Illuminate\Contracts\Container\Container  $container
+     * @return void
+     */
+    public function registerMacros(Container $container)
+    {
+        $this->register(
+            $container['url'],
+            'getRootControllerNamespace',
+            function () {
+                return $this->rootNamespace;
+            }
+        );
+
+        $this->register(
+            $container['router'],
+            'hasMiddlewareGroup',
+            function ($name) {
+                return array_key_exists($name, $this->middlewareGroups);
+            }
+        );
+    }
+
     /**
      * Register a macro to the class.
      *

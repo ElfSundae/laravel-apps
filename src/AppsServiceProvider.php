@@ -13,7 +13,7 @@ class AppsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        AppManager::registerMacros($this->app);
+        (new MacroRegistrar)->registerMacros($this->app);
 
         if ($this->app->runningInConsole()) {
             $this->publishAssets();
