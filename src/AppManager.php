@@ -274,6 +274,14 @@ class AppManager
                 return $this->rootNamespace;
             }
         );
+
+        static::registerMacro(
+            $container['router'],
+            'hasMiddlewareGroup',
+            function ($name) {
+                return array_key_exists($name, $this->middlewareGroups);
+            }
+        );
     }
 
     /**
