@@ -267,7 +267,9 @@ class AppManager
      */
     public static function registerMacros(Container $container)
     {
-        static::registerMacro(
+        $registrar = new MacroRegistrar;
+
+        $registrar->register(
             $container['url'],
             'getRootControllerNamespace',
             function () {
@@ -275,29 +277,12 @@ class AppManager
             }
         );
 
-        static::registerMacro(
+        $registrar->register(
             $container['router'],
             'hasMiddlewareGroup',
             function ($name) {
                 return array_key_exists($name, $this->middlewareGroups);
             }
         );
-    }
-
-    /**
-     * Register a macro to the class.
-     *
-     * @param  string|object  $class
-     * @param  string  $method
-     * @param  object|callable  $macro
-     * @return void
-     */
-    protected static function registerMacro($class, $method, $macro)
-    {
-        if (! method_exists($class, $method)) {
-            $class = is_object($class) ? get_class($class) : $class;
-
-            call_user_func_array([$class, 'macro'], [$method, $macro]);
-        }
     }
 }
