@@ -19,7 +19,6 @@ class AppsServiceProviderTest extends TestCase
     public function testRegisteredMacros()
     {
         $this->registerAppsService();
-        $this->assertTrue($this->app['url']->hasMacro('getRootControllerNamespace'));
         $this->app['url']->setRootControllerNamespace('Foo');
         $this->assertSame('Foo', $this->app['url']->getRootControllerNamespace());
     }

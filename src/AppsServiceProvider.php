@@ -13,24 +13,11 @@ class AppsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerMacros();
+        AppManager::registerMacros($this->app);
 
         if ($this->app->runningInConsole()) {
             $this->publishAssets();
         }
-    }
-
-    /**
-     * Register macros.
-     *
-     * @return void
-     */
-    protected function registerMacros()
-    {
-        $this->app['url']->macro('getRootControllerNamespace', function () {
-            /* @var $this \Illuminate\Routing\UrlGenerator */
-            return $this->rootNamespace;
-        });
     }
 
     /**

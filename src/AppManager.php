@@ -258,4 +258,38 @@ class AppManager
 
         return trim($namespace.'\\'.Str::studly($app), '\\');
     }
+
+    /**
+     * Register macros.
+     *
+     * @param  \Illuminate\Contracts\Container\Container  $container
+     * @return void
+     */
+    public static function registerMacros(Container $container)
+    {
+        static::registerMacro(
+            $container['url'],
+            'getRootControllerNamespace',
+            function () {
+                return $this->rootNamespace;
+            }
+        );
+    }
+
+    /**
+     * Register a macro to the class.
+     *
+     * @param  string|object  $class
+     * @param  string  $method
+     * @param  object|callable  $macro
+     * @return void
+     */
+    protected static function registerMacro($class, $method, $macro)
+    {
+        if (! method_exists($class, $method)) {
+            $class = is_object($class) ? get_class($class) : $class;
+
+            call_user_func_array([$class, 'macro'], [$method, $macro]);
+        }
+    }
 }
