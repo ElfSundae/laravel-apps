@@ -254,7 +254,7 @@ class AppManager
     protected function getRootControllerNamespace($app)
     {
         $namespace = $this->container['url']->getRootControllerNamespace()
-            ?: $this->container->getNamespace().'Http\Controllers';
+            ?: 'App\Http\Controllers';
 
         return trim($namespace.'\\'.Str::studly($app), '\\');
     }
