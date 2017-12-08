@@ -225,45 +225,38 @@ class AppManagerTest extends TestCase
             ],
         ]);
 
-        $this->get('http://example.com')
-            ->assertJson([
-                'domain' => 'example.com',
-                'middleware' => 'web',
-                'namespace' => 'Foo\Controllers\Web',
-                'prefix' => null,
-            ]);
+        $this->assertJsonResponse($this->get('http://example.com'), [
+            'domain' => 'example.com',
+            'middleware' => 'web',
+            'namespace' => 'Foo\Controllers\Web',
+            'prefix' => null,
+        ]);
 
-        $this->get('http://admin.example.com')
-            ->assertJson([
-                'domain' => 'admin.example.com',
-                'middleware' => 'web',
-                'namespace' => 'Foo\Controllers\Admin',
-                'prefix' => null,
-            ]);
+        $this->assertJsonResponse($this->get('http://admin.example.com'), [
+            'domain' => 'admin.example.com',
+            'middleware' => 'web',
+            'namespace' => 'Foo\Controllers\Admin',
+            'prefix' => null,
+        ]);
 
-        $this->get('http://example.com/api')
-            ->assertJson([
-                'domain' => 'example.com',
-                'middleware' => 'api-middleware',
-                'namespace' => 'Foo\Api',
-                'prefix' => 'api',
-                'as' => 'api.index',
-            ]);
-
-        $this->get('http://assets.example.com')
-            ->assertStatus(404);
+        $this->assertJsonResponse($this->get('http://example.com/api'), [
+            'domain' => 'example.com',
+            'middleware' => 'api-middleware',
+            'namespace' => 'Foo\Api',
+            'prefix' => 'api',
+            'as' => 'api.index',
+        ]);
 
         $this->app['router']->setRoutes(new RouteCollection);
         $this->app['url']->setRootControllerNamespace(null);
         $this->app['apps']->routes();
 
-        $this->get('http://example.com/api')
-            ->assertJson([
-                'domain' => 'example.com',
-                'middleware' => 'api',
-                'namespace' => 'App\Http\Controllers\Api',
-                'prefix' => 'api',
-            ]);
+        $this->assertJsonResponse($this->get('http://example.com/api'), [
+            'domain' => 'example.com',
+            'middleware' => 'api',
+            'namespace' => 'App\Http\Controllers\Api',
+            'prefix' => 'api',
+        ]);
     }
 
     protected function getManager()

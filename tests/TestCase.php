@@ -7,6 +7,8 @@ use Orchestra\Testbench\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
 {
+    use Concerns\MakesHttpRequests;
+
     protected function setAppsConfig($config)
     {
         $this->app['config']['apps'] = $config;
