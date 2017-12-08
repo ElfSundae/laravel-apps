@@ -218,6 +218,7 @@ class AppManagerTest extends TestCase
             'api' => [
                 'middleware' => 'api-middleware',
                 'namespace' => 'Foo\Bar',
+                'as' => 'api.',
             ],
         ]);
 
@@ -243,6 +244,7 @@ class AppManagerTest extends TestCase
                 'middleware' => 'api-middleware',
                 'namespace' => 'Foo\Bar',
                 'prefix' => 'api',
+                'as' => 'api.index',
             ]);
 
         $this->get('http://assets.example.com')
