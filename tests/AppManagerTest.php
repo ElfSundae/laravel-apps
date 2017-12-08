@@ -6,6 +6,13 @@ use ElfSundae\Laravel\Apps\AppManager;
 
 class AppManagerTest extends TestCase
 {
+    public function tearDown()
+    {
+        $this->app['files']->deleteDirectory(base_path('routes'));
+
+        parent::tearDown();
+    }
+
     public function testInstantiation()
     {
         $this->assertInstanceOf(AppManager::class, $this->getManager());
@@ -186,6 +193,60 @@ class AppManagerTest extends TestCase
         $this->assertSame('http://example.com', $manager->url('web'));
         $this->assertSame('https://api.example.com/v1', $manager->url('api'));
         $this->assertSame('https://api.example.com/v1/path/foo/bar', $manager->url('api', 'path', ['foo', 'bar']));
+    }
+
+    public function testRoutes()
+    {
+        $this->registerAppsService([
+            'url' => [
+                'web' => 'http://example.com',
+                'admin' => 'http://admin.example.com',
+                'api' => 'http://example.com/api',
+                'assets' => 'http://assets.example.com',
+            ],
+        ]);
+
+        $this->app['files']->makeDirectory(base_path('routes'));
+        foreach (['web', 'admin', 'api'] as $id) {
+            $this->app['files']->copy(__DIR__.'/fixtures/routes.php', base_path("routes/$id.php"));
+        }
+
+        $this->app['router']->middlewareGroup('admin', []);
+        $this->app['router']->middlewareGroup('api-middleware', []);
+
+        $this->app['apps']->routes([
+            'api' => [
+                'middleware' => 'api-middleware',
+                'namespace' => 'Foo\Bar',
+            ],
+        ]);
+
+        $this->get('http://example.com')
+            ->assertJson([
+                'domain' => 'example.com',
+                'middleware' => 'web',
+                'namespace' => 'App\Http\Controllers\Web',
+                'prefix' => null,
+            ]);
+
+        $this->get('http://admin.example.com')
+            ->assertJson([
+                'domain' => 'admin.example.com',
+                'middleware' => 'admin',
+                'namespace' => 'App\Http\Controllers\Admin',
+                'prefix' => null,
+            ]);
+
+        $this->get('http://example.com/api')
+            ->assertJson([
+                'domain' => 'example.com',
+                'middleware' => 'api-middleware',
+                'namespace' => 'Foo\Bar',
+                'prefix' => 'api',
+            ]);
+
+        $this->get('http://assets.example.com')
+            ->assertStatus(404);
     }
 
     protected function getManager()
