@@ -35,23 +35,7 @@ class AppManagerTest extends TestCase
             'admin' => 'http://admin.example.com',
         ];
         $this->setAppsConfig(['url' => $urls]);
-        $this->assertEquals($urls, $this->getManager()->appUrls());
-    }
-
-    public function testGetAppUrl()
-    {
-        $this->app['config']->set([
-            'app.url' => 'http://example.com',
-            'apps.url' => [
-                'api' => 'http://example.com/api',
-            ],
-        ]);
-        $manager = $this->getManager();
-
-        $this->assertSame('http://example.com', $manager->appUrl());
-        $this->assertSame('http://example.com', $manager->appUrl(null));
-        $this->assertSame('http://example.com', $manager->appUrl('foo'));
-        $this->assertSame('http://example.com/api', $manager->appUrl('api'));
+        $this->assertEquals($urls, $this->getManager()->urls());
     }
 
     public function testGetRootUrl()
@@ -145,7 +129,7 @@ class AppManagerTest extends TestCase
         $this->assertSame('testing', $manager->refreshId()->id());
     }
 
-    public function testGetAppIdForUrl()
+    public function testGetIdForUrl()
     {
         $this->setAppsConfig([
             'url' => [
@@ -159,24 +143,24 @@ class AppManagerTest extends TestCase
         ]);
         $manager = $this->getManager();
 
-        $this->assertNull($manager->appIdForUrl('http://foo.bar'));
-        $this->assertSame('web', $manager->appIdForUrl('http://example.com'));
-        $this->assertSame('web', $manager->appIdForUrl('https://example.com'));
-        $this->assertSame('dev', $manager->appIdForUrl('http://example.com:8080'));
-        $this->assertSame('dev', $manager->appIdForUrl('http://example.com:8080/api'));
-        $this->assertSame('mirror', $manager->appIdForUrl('http://example.com.cn'));
-        $this->assertSame('mirror', $manager->appIdForUrl('http://example.com.cn/api'));
-        $this->assertSame('admin', $manager->appIdForUrl('http://admin.example.com'));
-        $this->assertSame('admin', $manager->appIdForUrl('http://admin.example.com/api'));
+        $this->assertNull($manager->idForUrl('http://foo.bar'));
+        $this->assertSame('web', $manager->idForUrl('http://example.com'));
+        $this->assertSame('web', $manager->idForUrl('https://example.com'));
+        $this->assertSame('dev', $manager->idForUrl('http://example.com:8080'));
+        $this->assertSame('dev', $manager->idForUrl('http://example.com:8080/api'));
+        $this->assertSame('mirror', $manager->idForUrl('http://example.com.cn'));
+        $this->assertSame('mirror', $manager->idForUrl('http://example.com.cn/api'));
+        $this->assertSame('admin', $manager->idForUrl('http://admin.example.com'));
+        $this->assertSame('admin', $manager->idForUrl('http://admin.example.com/api'));
 
-        $this->assertSame('api', $manager->appIdForUrl('http://example.com/api'));
-        $this->assertSame('api', $manager->appIdForUrl('https://example.com/api/'));
-        $this->assertSame('api', $manager->appIdForUrl('https://example.com/api/foo'));
-        $this->assertSame('api', $manager->appIdForUrl('https://example.com/api?foo'));
-        $this->assertSame('api', $manager->appIdForUrl('https://example.com/api#foo'));
-        $this->assertSame('web', $manager->appIdForUrl('https://example.com/apifoo'));
-        $this->assertSame('api_v2', $manager->appIdForUrl('http://example.com/api/v2/foo'));
-        $this->assertSame('api_v2', $manager->appIdForUrl('HTTPS://EXAMPLE.COM/API/V2/FOO'));
+        $this->assertSame('api', $manager->idForUrl('http://example.com/api'));
+        $this->assertSame('api', $manager->idForUrl('https://example.com/api/'));
+        $this->assertSame('api', $manager->idForUrl('https://example.com/api/foo'));
+        $this->assertSame('api', $manager->idForUrl('https://example.com/api?foo'));
+        $this->assertSame('api', $manager->idForUrl('https://example.com/api#foo'));
+        $this->assertSame('web', $manager->idForUrl('https://example.com/apifoo'));
+        $this->assertSame('api_v2', $manager->idForUrl('http://example.com/api/v2/foo'));
+        $this->assertSame('api_v2', $manager->idForUrl('HTTPS://EXAMPLE.COM/API/V2/FOO'));
     }
 
     public function testGenerateUrl()

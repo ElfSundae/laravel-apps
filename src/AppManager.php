@@ -44,36 +44,25 @@ class AppManager
      *
      * @return array
      */
-    public function appUrls()
+    public function urls()
     {
         return $this->container['config']->get('apps.url', []);
     }
 
     /**
-     * Get the root URL for the given application.
-     *
-     * @param  string  $app
-     * @return string
-     */
-    public function appUrl($app = '')
-    {
-        return Arr::get($this->appUrls(), (string) $app)
-            ?: $this->container['config']['app.url'];
-    }
-
-    /**
-     * Get the root URL for the given application.
+     * Get the root URL for the application identifier.
      *
      * @param  string  $app
      * @return string
      */
     public function root($app = '')
     {
-        return $this->appUrl($app);
+        return Arr::get($this->urls(), (string) $app)
+            ?: $this->container['config']['app.url'];
     }
 
     /**
-     * Get the URL domain for the given application.
+     * Get the URL domain for the application identifier.
      *
      * @param  string  $app
      * @return string
@@ -84,7 +73,7 @@ class AppManager
     }
 
     /**
-     * Get the URL prefix for the given application.
+     * Get the URL prefix for the application identifier.
      *
      * @param  string  $app
      * @return string
@@ -102,7 +91,7 @@ class AppManager
     public function id()
     {
         if ($this->appId === false) {
-            $this->appId = $this->appIdForUrl($this->container['request']->getUri());
+            $this->appId = $this->idForUrl($this->container['request']->getUri());
         }
 
         if (func_num_args() > 0) {
@@ -110,6 +99,25 @@ class AppManager
         }
 
         return $this->appId;
+    }
+
+    /**
+     * Get the application identifier for the given URL.
+     *
+     * @param  string  $url
+     * @return string
+     */
+    public function idForUrl($url)
+    {
+        return collect($this->urls())
+            ->filter(function ($root) use ($url) {
+                return $this->urlHasRoot($url, $root);
+            })
+            ->sortByDesc(function ($root) {
+                return strlen($root);
+            })
+            ->keys()
+            ->first();
     }
 
     /**
@@ -122,25 +130,6 @@ class AppManager
         $this->appId = false;
 
         return $this;
-    }
-
-    /**
-     * Get the application identifier for the given URL.
-     *
-     * @param  string  $url
-     * @return string
-     */
-    public function appIdForUrl($url)
-    {
-        return collect($this->appUrls())
-            ->filter(function ($root) use ($url) {
-                return $this->urlHasRoot($url, $root);
-            })
-            ->sortByDesc(function ($root) {
-                return strlen($root);
-            })
-            ->keys()
-            ->first();
     }
 
     /**
@@ -173,7 +162,7 @@ class AppManager
     }
 
     /**
-     * Generate an absolute URL to a path for the given application.
+     * Generate an absolute URL to a path for the given application identifier.
      *
      * @param  string  $app
      * @param  string  $path
@@ -209,7 +198,7 @@ class AppManager
      */
     public function routes(array $attributes = [])
     {
-        foreach ($this->appUrls() as $id => $url) {
+        foreach ($this->urls() as $id => $url) {
             if (! file_exists($file = base_path("routes/$id.php"))) {
                 continue;
             }
