@@ -41,10 +41,7 @@ class AppsServiceProvider extends ServiceProvider
     {
         $this->setupAssets();
 
-        $this->app->singleton('apps', function ($app) {
-            return new AppManager($app);
-        });
-        $this->app->alias('apps', AppManager::class);
+        $this->registerAppManager();
     }
 
     /**
@@ -55,5 +52,19 @@ class AppsServiceProvider extends ServiceProvider
     protected function setupAssets()
     {
         $this->mergeConfigFrom(__DIR__.'/../config/apps.php', 'apps');
+    }
+
+    /**
+     * Register app manager singleton.
+     *
+     * @return void
+     */
+    protected function registerAppManager()
+    {
+        $this->app->singleton('apps', function ($app) {
+            return new AppManager($app);
+        });
+
+        $this->app->alias('apps', AppManager::class);
     }
 }
