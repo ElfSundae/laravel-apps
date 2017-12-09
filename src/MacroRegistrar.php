@@ -18,6 +18,7 @@ class MacroRegistrar
             $container['url'],
             'getRootControllerNamespace',
             function () {
+                /* @var $this \Illuminate\Routing\UrlGenerator */
                 return $this->rootNamespace;
             }
         );
@@ -26,6 +27,7 @@ class MacroRegistrar
             $container['router'],
             'hasMiddlewareGroup',
             function ($name) {
+                /* @var $this \Illuminate\Routing\Router */
                 return array_key_exists($name, $this->middlewareGroups);
             }
         );
