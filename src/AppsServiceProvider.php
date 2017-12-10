@@ -3,7 +3,6 @@
 namespace ElfSundae\Laravel\Apps;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Contracts\Config\Repository as Config;
 
 class AppsServiceProvider extends ServiceProvider
 {
