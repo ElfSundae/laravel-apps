@@ -16,9 +16,7 @@ class AppsServiceProvider extends ServiceProvider
     {
         (new MacroRegistrar)->registerMacros($this->app);
 
-        if ($this->app->runningInConsole()) {
-            $this->publishAssets();
-        }
+        $this->publishAssets();
     }
 
     /**
@@ -28,6 +26,10 @@ class AppsServiceProvider extends ServiceProvider
      */
     protected function publishAssets()
     {
+        if (! $this->app->runningInConsole()) {
+            return;
+        }
+
         $this->publishes([
             __DIR__.'/../config/apps.php' => config_path('apps.php'),
         ], 'laravel-apps');
