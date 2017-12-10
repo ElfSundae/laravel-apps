@@ -7,18 +7,16 @@ use ElfSundae\Laravel\Apps\Facades\Apps;
 
 class AppsServiceProviderTest extends TestCase
 {
-    public function testBindings()
+    public function testServiceProvider()
     {
         $this->registerAppsService();
+
         $manager = $this->app['apps'];
+
         $this->assertInstanceOf(AppManager::class, $manager);
         $this->assertSame($manager, $this->app[AppManager::class]);
         $this->assertSame($manager, Apps::getFacadeRoot());
-    }
 
-    public function testRegisteredMacros()
-    {
-        $this->registerAppsService();
         $this->assertTrue($this->app['url']->hasMacro('getRootControllerNamespace'));
     }
 }
