@@ -3,6 +3,7 @@
 namespace ElfSundae\Laravel\Apps;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Config\Repository as Config;
 
 class AppsServiceProvider extends ServiceProvider
 {
@@ -13,30 +14,10 @@ class AppsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->setupConfiguration();
-
         (new MacroRegistrar)->registerMacros($this->app);
 
         if ($this->app->runningInConsole()) {
             $this->publishAssets();
-        }
-    }
-
-    /**
-     * Setup application configurations.
-     *
-     * @return void
-     */
-    protected function setupConfiguration()
-    {
-        $config = $this->app['config'];
-
-        if (! $this->app->configurationIsCached()) {
-            $config->set($config->get('apps.config.default', []));
-        }
-
-        if ($appId = $this->app['apps']->id()) {
-            $config->set($config->get('apps.config.'.$appId, []));
         }
     }
 
@@ -62,6 +43,10 @@ class AppsServiceProvider extends ServiceProvider
         $this->setupAssets();
 
         $this->registerAppManager();
+
+        $this->app->booting(function ($app) {
+            $this->setupConfiguration($app['config']);
+        });
     }
 
     /**
@@ -86,5 +71,22 @@ class AppsServiceProvider extends ServiceProvider
         });
 
         $this->app->alias('apps', AppManager::class);
+    }
+
+    /**
+     * Setup application configurations.
+     *
+     * @param  \Illuminate\Contracts\Config\Repository  $config
+     * @return void
+     */
+    protected function setupConfiguration(Config $config)
+    {
+        if (! $this->app->configurationIsCached()) {
+            $config->set($config->get('apps.config.default', []));
+        }
+
+        if ($appId = $this->app['apps']->id()) {
+            $config->set($config->get('apps.config.'.$appId, []));
+        }
     }
 }
