@@ -46,9 +46,7 @@ class AppsServiceProvider extends ServiceProvider
 
         $this->registerAppManager();
 
-        $this->app->booting(function ($app) {
-            $this->setupConfiguration($app['config']);
-        });
+        $this->setupConfiguration();
     }
 
     /**
@@ -78,17 +76,20 @@ class AppsServiceProvider extends ServiceProvider
     /**
      * Setup application configurations.
      *
-     * @param  \Illuminate\Contracts\Config\Repository  $config
      * @return void
      */
-    protected function setupConfiguration(Config $config)
+    protected function setupConfiguration()
     {
-        if (! $this->app->configurationIsCached()) {
-            $config->set($config->get('apps.config.default', []));
-        }
+        $this->app->booting(function ($app) {
+            $config = $app['config'];
 
-        if ($appId = $this->app['apps']->id()) {
-            $config->set($config->get('apps.config.'.$appId, []));
-        }
+            if (! $app->configurationIsCached()) {
+                $config->set($config->get('apps.config.default', []));
+            }
+
+            if ($appId = $app['apps']->id()) {
+                $config->set($config->get('apps.config.'.$appId, []));
+            }
+        });
     }
 }
