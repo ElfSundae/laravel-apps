@@ -13,10 +13,30 @@ class AppsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->setupConfiguration();
+
         (new MacroRegistrar)->registerMacros($this->app);
 
         if ($this->app->runningInConsole()) {
             $this->publishAssets();
+        }
+    }
+
+    /**
+     * Setup application configurations.
+     *
+     * @return void
+     */
+    protected function setupConfiguration()
+    {
+        $config = $this->app['config'];
+
+        if (! $this->app->configurationIsCached()) {
+            $config->set($config->get('apps.config.default', []));
+        }
+
+        if ($appId = $this->app['apps']->id()) {
+            $config->set($config->get('apps.config.'.$appId, []));
         }
     }
 
