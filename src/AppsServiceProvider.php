@@ -15,9 +15,7 @@ class AppsServiceProvider extends ServiceProvider
     {
         (new MacroRegistrar)->registerMacros($this->app);
 
-        if ($this->app->runningInConsole()) {
-            $this->publishAssets();
-        }
+        $this->publishAssets();
     }
 
     /**
@@ -27,6 +25,10 @@ class AppsServiceProvider extends ServiceProvider
      */
     protected function publishAssets()
     {
+        if (! $this->app->runningInConsole()) {
+            return;
+        }
+
         $this->publishes([
             __DIR__.'/../config/apps.php' => config_path('apps.php'),
         ], 'laravel-apps');
@@ -42,6 +44,8 @@ class AppsServiceProvider extends ServiceProvider
         $this->setupAssets();
 
         $this->registerAppManager();
+
+        $this->setupConfiguration();
     }
 
     /**
@@ -66,5 +70,25 @@ class AppsServiceProvider extends ServiceProvider
         });
 
         $this->app->alias('apps', AppManager::class);
+    }
+
+    /**
+     * Setup application configurations.
+     *
+     * @return void
+     */
+    protected function setupConfiguration()
+    {
+        $this->app->booting(function ($app) {
+            $config = $app['config'];
+
+            if (! $app->configurationIsCached()) {
+                $config->set($config->get('apps.config.default', []));
+            }
+
+            if ($appId = $app['apps']->id()) {
+                $config->set($config->get('apps.config.'.$appId, []));
+            }
+        });
     }
 }

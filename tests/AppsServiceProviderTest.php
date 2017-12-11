@@ -4,6 +4,7 @@ namespace ElfSundae\Laravel\Apps\Test;
 
 use ElfSundae\Laravel\Apps\AppManager;
 use ElfSundae\Laravel\Apps\Facades\Apps;
+use ElfSundae\Laravel\Apps\AppsServiceProvider;
 
 class AppsServiceProviderTest extends TestCase
 {
@@ -16,8 +17,6 @@ class AppsServiceProviderTest extends TestCase
 
     public function testServiceProvider()
     {
-        $this->registerAppsService();
-
         $manager = $this->app['apps'];
 
         $this->assertInstanceOf(AppManager::class, $manager);
@@ -31,5 +30,45 @@ class AppsServiceProviderTest extends TestCase
         $this->assertFileExists(config_path('apps.php'));
 
         $this->assertTrue($this->app['url']->hasMacro('getRootControllerNamespace'));
+
+        $this->assertEquals([
+            'a' => 'v1',
+            'b' => [
+                'c' => 'v2',
+                'd' => 'v3',
+            ],
+        ], $this->app['config']['foo']);
+    }
+
+    protected function getEnvironmentSetUp($app)
+    {
+        $app['config']->set([
+            'foo' => [
+                'a' => '1',
+                'b' => [
+                    'c' => '2',
+                    'd' => '3',
+                ],
+            ],
+            'apps' => [
+                'url' => [
+                    'web' => 'http://localhost',
+                ],
+                'config' => [
+                    'default' => [
+                        'foo.a' => 'v1',
+                        'foo.b.c' => 'v2',
+                    ],
+                    'web' => [
+                        'foo.b.d' => 'v3',
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    protected function getPackageProviders($app)
+    {
+        return [AppsServiceProvider::class];
     }
 }
