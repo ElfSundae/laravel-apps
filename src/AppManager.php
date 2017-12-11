@@ -133,7 +133,7 @@ class AppManager
     }
 
     /**
-     * Determine if an URL has the given root URL.
+     * Determine if a URL has the given root URL.
      *
      * @param  string  $url
      * @param  string  $root
@@ -151,7 +151,7 @@ class AppManager
     }
 
     /**
-     * Remove scheme for an URL.
+     * Remove scheme for a URL.
      *
      * @param  string  $url
      * @return string
