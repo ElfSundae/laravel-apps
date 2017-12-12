@@ -38,3 +38,17 @@ if (! function_exists('app_url')) {
         return app('apps')->url($app, $path, $parameters);
     }
 }
+
+if (! function_exists('asset_url')) {
+    /**
+     * Generate the URL to an application asset.
+     *
+     * @param  string  $path
+     * @param  bool  $secure
+     * @return string
+     */
+    function asset_url($path, $secure = null)
+    {
+        return app('url')->assetFrom(app('apps')->root('assets'), $path, $secure);
+    }
+}
