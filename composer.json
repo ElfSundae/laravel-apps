@@ -2,7 +2,7 @@
     "name": "elfsundae/laravel-apps",
     "type": "library",
     "description": "Laravel Multi Applications",
-    "keywords": ["laravel", "multi", "apps", "domain"],
+    "keywords": ["laravel", "multi", "application", "asset", "domain"],
     "homepage": "https://github.com/ElfSundae/laravel-apps",
     "license": "MIT",
     "authors": [
