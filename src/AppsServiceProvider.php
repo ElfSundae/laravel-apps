@@ -25,13 +25,11 @@ class AppsServiceProvider extends ServiceProvider
      */
     protected function publishAssets()
     {
-        if (! $this->app->runningInConsole()) {
-            return;
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__.'/../config/apps.php' => config_path('apps.php'),
+            ], 'laravel-apps');
         }
-
-        $this->publishes([
-            __DIR__.'/../config/apps.php' => config_path('apps.php'),
-        ], 'laravel-apps');
     }
 
     /**
