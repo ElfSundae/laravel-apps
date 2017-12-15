@@ -223,15 +223,12 @@ class AppManager
     {
         $attr = [
             'domain' => $this->domain($app),
+            'prefix' => $this->prefix($app),
             'middleware' => $this->container['router']->hasMiddlewareGroup($app) ? $app : 'web',
             'namespace' => $this->getRootControllerNamespace($app),
         ];
 
-        if ($prefix = $this->prefix($app)) {
-            $attr['prefix'] = $prefix;
-        }
-
-        return array_merge($attr, $attributes);
+        return array_filter(array_merge($attr, $attributes));
     }
 
     /**
