@@ -33,15 +33,4 @@ class HelpersTest extends TestCase
         $this->app->instance('apps', $apps);
         $this->assertSame('result', app_url('a', 'b', 'c'));
     }
-
-    public function test_asset_url()
-    {
-        $this->registerAppsService([
-            'url' => [
-                'assets' => 'http://foo.com',
-            ],
-        ]);
-        $this->assertSame('https://foo.com/js/app.js', asset_url('js/app.js', true));
-        $this->assertSame('http://foo.com/foo/bar', asset_url('/foo/bar/'));
-    }
 }
