@@ -12,6 +12,7 @@ env:
     - COMPOSER_FLAGS=""
 
 before_script:
+  - if [[ ${TRAVIS_PHP_VERSION:0:3} > "7.1" ]]; then COMPOSER_FLAGS=""; fi
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist --no-suggest
 
 script:
