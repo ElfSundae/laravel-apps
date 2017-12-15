@@ -32,6 +32,7 @@ return [
         'default' => [
             'app.log' => env('APP_LOG', 'daily'),
             'app.log_max_files' => 90,
+            'app.editor' => env('APP_EDITOR'),
 
             'filesystems.disks.public.url' => env('APP_URL_ASSETS', env('APP_URL')).'/storage',
         ],
