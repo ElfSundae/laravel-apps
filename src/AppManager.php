@@ -190,7 +190,8 @@ class AppManager
     }
 
     /**
-     * Register routes for each sub application.
+     * Register routes for each application.
+     *
      * You may call this method in `RouteServiceProvider::map()`.
      *
      * @param  array  $attributes

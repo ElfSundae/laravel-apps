@@ -7,7 +7,7 @@ return [
     | Application URL
     |--------------------------------------------------------------------------
     |
-    | The root URL for each sub application.
+    | The root URL for each application.
     |
     */
 
@@ -23,7 +23,7 @@ return [
     | Application Configuration
     |--------------------------------------------------------------------------
     |
-    | Here you may override the default configurations for each sub application.
+    | Here you may override the default configurations for each application.
     |
     */
 
