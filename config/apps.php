@@ -7,7 +7,7 @@ return [
     | Application URL
     |--------------------------------------------------------------------------
     |
-    | The root URL for each sub application.
+    | The root URL for each application.
     |
     */
 
@@ -23,7 +23,7 @@ return [
     | Application Configuration
     |--------------------------------------------------------------------------
     |
-    | Here you may override the default configurations for each sub application.
+    | Here you may override the default configurations for each application.
     |
     */
 
@@ -31,7 +31,7 @@ return [
 
         'default' => [
             'app.log' => env('APP_LOG', 'daily'),
-            'app.log_max_files' => 90,
+            'app.log_max_files' => 50,
             'app.editor' => env('APP_EDITOR'),
 
             'filesystems.disks.public.url' => env('APP_URL_ASSETS', env('APP_URL')).'/storage',
@@ -39,6 +39,10 @@ return [
 
         'admin' => [
             'session.domain' => env('SESSION_DOMAIN_ADMIN', null),
+        ],
+
+        'api' => [
+            'auth.defaults.guard' => 'api',
         ],
 
     ],
