@@ -85,7 +85,7 @@ class AppsServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $providers = array_unique(Arr::flatten($providers));
         } else {
-            $providers = Arr::get($providers, $this->app['apps']->id(), []);
+            $providers = (array) Arr::get($providers, $this->app['apps']->id());
         }
 
         array_walk($providers, function ($p) {
