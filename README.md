@@ -15,9 +15,11 @@ This package provides basic support for Laravel multi-application.
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Documentation](#documentation)
-    - [Obtain Application Manager Instance](#obtain-application-manager-instance)
+    - [Obtain Application Manager](#obtain-application-manager)
+    - [Retrieve Application URL](#retrieve-application-url)
     - [Determine The Current Application Identifier](#determine-the-current-application-identifier)
     - [Selectively Register Service Providers](#selectively-register-service-providers)
+    - [Generate URL](#generate-url)
 - [Testing](#testing)
 - [License](#license)
 
@@ -45,12 +47,13 @@ $ php artisan vendor:publish --tag=laravel-apps
 
 ## Configuration
 
-The `url` configuration option defines the root URL for each application:
+The `url` configuration option defines the root URL of each application:
 
 ```php
 'url' => [
     'web' => 'https://example.com',
     'admin' => 'https://example.com/admin',
+    'mobile' => 'https://m.example.com',
     'api' => 'https://api.example.com',
     'assets' => 'https://assets.foobar.net',
 ],
@@ -64,6 +67,7 @@ The `config` option may be used to override the default configurations for each 
     'default' => [
         'app.timezone' => 'Asia/Shanghai',
         'app.log' => env('APP_LOG', 'daily'),
+        'app.log_max_files' => 30,
         'auth.providers.users.model' => App\Models\User::class,
         'filesystems.disks.public.url' => env('APP_URL_ASSETS', env('APP_URL')).'/storage',
 
@@ -84,9 +88,11 @@ The `config` option may be used to override the default configurations for each 
 
 ## Documentation
 
-### Obtain Application Manager Instance
+### Obtain Application Manager
 
-The `Apps` facade or `apps()` helper function may be used to obtain the application manager instance.
+You may obtain the application manager instance using the `Apps` facade, the `apps()` helper function or type-hinting `ElfSundae\Laravel\Apps\AppManager` dependency.
+
+### Retrieve Application URL
 
 ```php
 // Get all application URLs
@@ -94,6 +100,9 @@ Apps::urls();
 
 // Get the root URL for assets app
 apps()->root('assets');
+
+// Get the URL domain for api app
+apps()->domain('api');
 
 // Get the URL prefix for admin app
 apps()->prefix('admin');
@@ -123,7 +132,7 @@ if (app_id('web', 'admin')) {
 
 ### Selectively Register Service Providers
 
-You may selectively register service providers for certain sub applications, instead of adding all service providers to the `providers` array in the `config/app.php` file.
+Instead of adding all service providers to the `providers` array in the `config/app.php` file, you may want to selectively register service providers for certain sub applications:
 
 ```php
 class AppServiceProvider extends ServiceProvider
@@ -149,6 +158,16 @@ If your application runs on Laravel 5.5+ which support [package discovery](https
         ]
     }
 }
+```
+
+### Generate URL
+
+You can use the `url` method or the corresponding `app_url` helper function to generate an absolute URL to a path for a given application identifier:
+
+```php
+apps()->url('admin', 'user', [$user]); // https://example.com/admin/user/123
+
+app_url('api', 'posts'); // https://api.example.com/posts
 ```
 
 ## Testing
