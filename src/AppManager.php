@@ -21,9 +21,9 @@ class AppManager
     /**
      * The current application identifier.
      *
-     * @var string|false
+     * @var string
      */
-    protected $appId = false;
+    protected $appId;
 
     /**
      * Create a new app manager instance.
@@ -90,8 +90,8 @@ class AppManager
      */
     public function id()
     {
-        if ($this->appId === false) {
-            $this->appId = $this->idForUrl($this->container['request']->getUri());
+        if (is_null($this->appId)) {
+            $this->appId = (string) $this->idForUrl($this->container['request']->getUri());
         }
 
         if (func_num_args() > 0) {
@@ -105,7 +105,7 @@ class AppManager
      * Get the application identifier for the given URL.
      *
      * @param  string  $url
-     * @return string
+     * @return string|null
      */
     public function idForUrl($url)
     {
@@ -127,7 +127,7 @@ class AppManager
      */
     public function refreshId()
     {
-        $this->appId = false;
+        $this->appId = null;
 
         return $this;
     }
