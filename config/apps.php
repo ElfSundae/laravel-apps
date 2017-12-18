@@ -20,6 +20,24 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Service Providers
+    |--------------------------------------------------------------------------
+    |
+    | The service providers listed here will be automatically registered for
+    | each application.
+    |
+    */
+
+    'providers' => [
+
+        'admin' => [
+            // App\Providers\AdminServiceProvider::class,
+        ],
+
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Configuration
     |--------------------------------------------------------------------------
     |

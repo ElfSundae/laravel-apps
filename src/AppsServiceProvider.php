@@ -2,6 +2,7 @@
 
 namespace ElfSundae\Laravel\Apps;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
 
 class AppsServiceProvider extends ServiceProvider
@@ -43,6 +44,8 @@ class AppsServiceProvider extends ServiceProvider
 
         $this->registerAppManager();
 
+        $this->registerConfiguredProviders();
+
         $this->setupConfiguration();
     }
 
@@ -68,6 +71,26 @@ class AppsServiceProvider extends ServiceProvider
         });
 
         $this->app->alias('apps', AppManager::class);
+    }
+
+    /**
+     * Register the configured service providers.
+     *
+     * @return void
+     */
+    protected function registerConfiguredProviders()
+    {
+        $providers = $this->app['config']->get('apps.providers', []);
+
+        if ($this->app->runningInConsole()) {
+            $providers = array_unique(Arr::flatten($providers));
+        } else {
+            $providers = Arr::get($providers, $this->app['apps']->id(), []);
+        }
+
+        array_walk($providers, function ($p) {
+            $this->app->register($p);
+        });
     }
 
     /**
