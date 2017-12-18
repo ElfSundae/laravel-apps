@@ -7,7 +7,7 @@ return [
     | Application URL
     |--------------------------------------------------------------------------
     |
-    | The root URL for each application.
+    | The root URL of each application.
     |
     */
 
