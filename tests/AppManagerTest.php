@@ -98,7 +98,7 @@ class AppManagerTest extends TestCase
         $this->assertSame('web', $manager->id());
 
         $this->setRequestUrl('http://foo.app');
-        $this->assertNull($manager->id());
+        $this->assertSame('', $manager->id());
     }
 
     public function testCheckId()
