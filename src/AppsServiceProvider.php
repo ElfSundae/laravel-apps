@@ -100,7 +100,9 @@ class AppsServiceProvider extends ServiceProvider
      */
     protected function setupConfiguration()
     {
-        $this->app->booting(function ($app) {
+        $booting = $this->app->isBooted() ? 'booted' : 'booting';
+
+        $this->app->$booting(function ($app) {
             $config = $app['config'];
 
             if (! $app->configurationIsCached()) {
