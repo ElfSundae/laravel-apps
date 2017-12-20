@@ -2,8 +2,13 @@
 
 namespace ElfSundae\Laravel\Apps\Test;
 
+use Mockery as m;
+use Illuminate\Http\Request;
 use ElfSundae\Laravel\Apps\AppManager;
+use Illuminate\Foundation\Application;
+use Illuminate\Support\ServiceProvider;
 use ElfSundae\Laravel\Apps\Facades\Apps;
+use ElfSundae\Laravel\Apps\AppsServiceProvider;
 
 class AppsServiceProviderTest extends TestCase
 {
@@ -39,8 +44,75 @@ class AppsServiceProviderTest extends TestCase
         $this->assertFileExists(config_path('apps.php'));
     }
 
-    public function atestRegisteredConfiguredProviders()
+    public function testRegisteredAllConfiguredProvidersForConsole()
     {
+        $this->registerAppsService([
+            'url' => [
+                'web' => 'http://localhost',
+                'admin' => 'http://localhost/admin',
+                'api' => 'http://localhost/api',
+            ],
+            'providers' => [
+                'admin' => [
+                    AdminServiceProvider::class,
+                ],
+                'api' => ApiServiceProvider::class,
+            ],
+        ]);
+        $this->assertInstanceOf(AdminServiceProvider::class, $this->app->getProvider(AdminServiceProvider::class));
+        $this->assertInstanceOf(ApiServiceProvider::class, $this->app->getProvider(ApiServiceProvider::class));
+    }
+
+    public function testNotRegisterConfiguredProviders()
+    {
+        $app = m::mock(Application::class)->makePartial();
+        $app->shouldReceive('runningInConsole')->andReturn(false);
+        $app['config'] = $this->app['config'];
+        $app['request'] = $this->app['request'];
+        $app['config']['apps'] = [
+            'url' => [
+                'web' => 'http://localhost',
+                'admin' => 'http://localhost/admin',
+                'api' => 'http://localhost/api',
+            ],
+            'providers' => [
+                'admin' => [
+                    AdminServiceProvider::class,
+                ],
+                'api' => ApiServiceProvider::class,
+            ],
+        ];
+
+        $app->register(AppsServiceProvider::class);
+
+        $this->assertNull($app->getProvider(AdminServiceProvider::class));
+        $this->assertNull($app->getProvider(ApiServiceProvider::class));
+    }
+
+    public function testRegisteredConfiguredProvidersForCertainApp()
+    {
+        $app = m::mock(Application::class)->makePartial();
+        $app->shouldReceive('runningInConsole')->andReturn(false);
+        $app->instance('config', $this->app['config']);
+        $app->instance('request', Request::create('http://localhost/admin'));
+        $app['config']['apps'] = [
+            'url' => [
+                'web' => 'http://localhost',
+                'admin' => 'http://localhost/admin',
+                'api' => 'http://localhost/api',
+            ],
+            'providers' => [
+                'admin' => [
+                    AdminServiceProvider::class,
+                ],
+                'api' => ApiServiceProvider::class,
+            ],
+        ];
+
+        $app->register(AppsServiceProvider::class);
+
+        $this->assertInstanceOf(AdminServiceProvider::class, $app->getProvider(AdminServiceProvider::class));
+        $this->assertNull($app->getProvider(ApiServiceProvider::class));
     }
 
     public function testSetupConfiguration()
@@ -76,5 +148,19 @@ class AppsServiceProviderTest extends TestCase
                 'd' => 'v3',
             ],
         ], $this->app['config']['foo']);
+    }
+}
+
+class AdminServiceProvider extends ServiceProvider
+{
+    public function register()
+    {
+    }
+}
+
+class ApiServiceProvider extends ServiceProvider
+{
+    public function register()
+    {
     }
 }
