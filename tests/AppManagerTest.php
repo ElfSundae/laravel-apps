@@ -180,6 +180,19 @@ class AppManagerTest extends TestCase
         $this->assertSame('https://api.example.com/v1/path/foo/bar', $manager->url('api', 'path', ['foo', 'bar']));
     }
 
+    public function testGenerateAssetUrl()
+    {
+        $this->app['config']->set([
+            'apps.url' => [
+                'assets' => 'http://foo.com',
+            ],
+        ]);
+        $manager = $this->getManager();
+
+        $this->assertSame('http://foo.com/bar', $manager->asset('bar'));
+        $this->assertSame('https://foo.com/bar', $manager->asset('bar', true));
+    }
+
     public function testRoutes()
     {
         $this->registerAppsService([

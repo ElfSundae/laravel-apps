@@ -178,6 +178,18 @@ class AppManager
     }
 
     /**
+     * Generate the URL to an application asset.
+     *
+     * @param  string  $path
+     * @param  bool|null  $secure
+     * @return string
+     */
+    public function asset($path, $secure = null)
+    {
+        return $this->container['url']->assetFrom($this->root('assets'), $path, $secure);
+    }
+
+    /**
      * Return the remainder of a string after a given value.
      *
      * @param  string  $subject
