@@ -67,8 +67,9 @@ class AppsServiceProviderTest extends TestCase
     {
         $app = m::mock(Application::class)->makePartial();
         $app->shouldReceive('runningInConsole')->andReturn(false);
-        $app['config'] = $this->app['config'];
-        $app['request'] = $this->app['request'];
+        $app->instance('config', $this->app['config']);
+        $app->instance('events', $this->app['events']);
+        $app->instance('request', $this->app['request']);
         $app['config']['apps'] = [
             'url' => [
                 'web' => 'http://localhost',
@@ -94,6 +95,7 @@ class AppsServiceProviderTest extends TestCase
         $app = m::mock(Application::class)->makePartial();
         $app->shouldReceive('runningInConsole')->andReturn(false);
         $app->instance('config', $this->app['config']);
+        $app->instance('events', $this->app['events']);
         $app->instance('request', Request::create('http://localhost/admin'));
         $app['config']['apps'] = [
             'url' => [
