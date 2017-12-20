@@ -4,7 +4,6 @@ namespace ElfSundae\Laravel\Apps\Test;
 
 use ElfSundae\Laravel\Apps\AppManager;
 use ElfSundae\Laravel\Apps\Facades\Apps;
-use ElfSundae\Laravel\Apps\AppsServiceProvider;
 
 class AppsServiceProviderTest extends TestCase
 {
@@ -15,21 +14,60 @@ class AppsServiceProviderTest extends TestCase
         parent::tearDown();
     }
 
-    public function testServiceProvider()
+    public function testRegisteredAppManager()
     {
+        $this->registerAppsService();
         $manager = $this->app['apps'];
-
         $this->assertInstanceOf(AppManager::class, $manager);
         $this->assertSame($manager, $this->app[AppManager::class]);
         $this->assertSame($manager, Apps::getFacadeRoot());
+    }
 
+    public function testRegisteredMacros()
+    {
+        $this->registerAppsService();
+        $this->assertTrue($this->app['url']->hasMacro('getRootControllerNamespace'));
+    }
+
+    public function testPublishAssets()
+    {
+        $this->registerAppsService();
         $this->artisan('vendor:publish', [
             '--force' => true,
             '--provider' => 'ElfSundae\Laravel\Apps\AppsServiceProvider',
         ]);
         $this->assertFileExists(config_path('apps.php'));
+    }
 
-        $this->assertTrue($this->app['url']->hasMacro('getRootControllerNamespace'));
+    public function atestRegisteredConfiguredProviders()
+    {
+    }
+
+    public function testSetupConfiguration()
+    {
+        $this->app['config']->set([
+            'foo' => [
+                'a' => '1',
+                'b' => [
+                    'c' => '2',
+                    'd' => '3',
+                ],
+            ],
+        ]);
+        $this->registerAppsService([
+            'url' => [
+                'web' => 'http://localhost',
+            ],
+            'config' => [
+                'default' => [
+                    'foo.a' => 'v1',
+                    'foo.b.c' => 'v2',
+                ],
+                'web' => [
+                    'foo.b.d' => 'v3',
+                ],
+            ],
+        ]);
 
         $this->assertEquals([
             'a' => 'v1',
@@ -38,37 +76,5 @@ class AppsServiceProviderTest extends TestCase
                 'd' => 'v3',
             ],
         ], $this->app['config']['foo']);
-    }
-
-    protected function getEnvironmentSetUp($app)
-    {
-        $app['config']->set([
-            'foo' => [
-                'a' => '1',
-                'b' => [
-                    'c' => '2',
-                    'd' => '3',
-                ],
-            ],
-            'apps' => [
-                'url' => [
-                    'web' => 'http://localhost',
-                ],
-                'config' => [
-                    'default' => [
-                        'foo.a' => 'v1',
-                        'foo.b.c' => 'v2',
-                    ],
-                    'web' => [
-                        'foo.b.d' => 'v3',
-                    ],
-                ],
-            ],
-        ]);
-    }
-
-    protected function getPackageProviders($app)
-    {
-        return [AppsServiceProvider::class];
     }
 }
