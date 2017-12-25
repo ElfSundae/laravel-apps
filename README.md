@@ -172,7 +172,7 @@ Instead of adding all service providers to the `config/app.php` file, you may wa
 
 ### Define Application Routes
 
-The `routes` method helps you define route group for each application. In general, you will call it in the `map` method of your `RouteServiceProvider`:
+The `routes` method on the app manager helps you define route group for each application. In general, you will call it in the `map` method of your `RouteServiceProvider`:
 
 ```
 class RouteServiceProvider extends ServiceProvider
@@ -264,7 +264,7 @@ apps()->asset('js/app.js'); // https://assets.foo.net/js/app.js
 
 ### Custom Root URL For asset() Helper
 
-The Laravel built-in `URL::asset` method or the corresponding `asset` `secure_asset` helper functions are designed to generate URL for the application assets. In most applications, we will probably specify a cookie-free domain or use CDN for the assets, however we can not set custom root URL for these built-in assets methods, and for now there is no elegant way to extend the core `UrlGenerator`.
+The Laravel built-in `URL::asset` method or the corresponding `asset`, `secure_asset` helper functions are designed to generate URL for the application assets. In most applications, we will probably specify a cookie-free domain or use CDN for the assets, however we can not set custom root URL for these built-in assets methods, and for now there is no elegant way to extend the core `UrlGenerator`.
 
 You may use `URL::assetFrom`, `Apps::asset`, or a custom helper function to generate assets URLs, but it is awfully boring to replace all `asset()` calls to your own assets method for the third-party packages. Maybe a better workaround is overwriting the built-in `asset` helper: define your `asset` function before including the Composer autoloader file, in your `public/index.php` file:
 
