@@ -204,7 +204,7 @@ class AppManager
     /**
      * Register routes for each application.
      *
-     * You may call this method in `RouteServiceProvider::map()`.
+     * You may call this method in the `map` method of your `RouteServiceProvider`.
      *
      * @param  array  $attributes
      * @return void
