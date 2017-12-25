@@ -31,11 +31,11 @@ return [
     'providers' => [
 
         'admin' => [
-            // App\Providers\AdminServiceProvider::class,
+            //
         ],
 
         'api' => [
-            // App\Providers\ApiServiceProvider::class,
+            //
         ],
 
     ],
@@ -53,11 +53,10 @@ return [
 
         'default' => [
             'app.editor' => env('APP_EDITOR'),
-            // 'filesystems.disks.public.url' => env('APP_URL_ASSETS', env('APP_URL')).'/storage',
         ],
 
         'admin' => [
-            // 'session.domain' => env('SESSION_DOMAIN_ADMIN', null),
+            //
         ],
 
         'api' => [
