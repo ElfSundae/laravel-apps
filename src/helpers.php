@@ -4,7 +4,7 @@ if (! function_exists('apps')) {
     /**
      * Get the application manager instance.
      *
-     * @return \ElfSundae\Laravel\Apps\AppManager
+     * @return \ElfSundae\Apps\AppManager
      */
     function apps()
     {

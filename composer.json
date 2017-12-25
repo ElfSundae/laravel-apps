@@ -23,7 +23,7 @@
     },
     "autoload": {
         "psr-4": {
-            "ElfSundae\\Laravel\\Apps\\": "src/"
+            "ElfSundae\\Apps\\": "src/"
         },
         "files": [
             "src/helpers.php"
@@ -31,7 +31,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "ElfSundae\\Laravel\\Apps\\Test\\": "tests/"
+            "ElfSundae\\Apps\\Test\\": "tests/"
         }
     },
     "scripts": {
@@ -43,10 +43,10 @@
         },
         "laravel": {
             "providers": [
-                "ElfSundae\\Laravel\\Apps\\AppsServiceProvider"
+                "ElfSundae\\Apps\\AppsServiceProvider"
             ],
             "aliases": {
-                "Apps": "ElfSundae\\Laravel\\Apps\\Facades\\Apps"
+                "Apps": "ElfSundae\\Apps\\Facades\\Apps"
             }
         }
     }

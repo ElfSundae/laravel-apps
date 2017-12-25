@@ -1,8 +1,8 @@
 <?php
 
-namespace ElfSundae\Laravel\Apps\Test;
+namespace ElfSundae\Apps\Test;
 
-use ElfSundae\Laravel\Apps\AppsServiceProvider;
+use ElfSundae\Apps\AppsServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase

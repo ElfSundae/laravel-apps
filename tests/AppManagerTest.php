@@ -1,8 +1,8 @@
 <?php
 
-namespace ElfSundae\Laravel\Apps\Test;
+namespace ElfSundae\Apps\Test;
 
-use ElfSundae\Laravel\Apps\AppManager;
+use ElfSundae\Apps\AppManager;
 use Illuminate\Routing\RouteCollection;
 
 class AppManagerTest extends TestCase

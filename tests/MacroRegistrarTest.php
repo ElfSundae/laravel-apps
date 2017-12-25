@@ -1,9 +1,9 @@
 <?php
 
-namespace ElfSundae\Laravel\Apps\Test;
+namespace ElfSundae\Apps\Test;
 
+use ElfSundae\Apps\MacroRegistrar;
 use Illuminate\Support\Traits\Macroable;
-use ElfSundae\Laravel\Apps\MacroRegistrar;
 
 class MacroRegistrarTest extends TestCase
 {

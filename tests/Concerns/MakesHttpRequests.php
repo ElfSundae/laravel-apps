@@ -1,6 +1,6 @@
 <?php
 
-namespace ElfSundae\Laravel\Apps\Test\Concerns;
+namespace ElfSundae\Apps\Test\Concerns;
 
 use Illuminate\Foundation\Testing\TestResponse;
 

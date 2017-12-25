@@ -1,6 +1,6 @@
 <?php
 
-namespace ElfSundae\Laravel\Apps;
+namespace ElfSundae\Apps;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;

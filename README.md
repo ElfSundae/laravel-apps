@@ -39,7 +39,7 @@ $ composer require elfsundae/laravel-apps
 For earlier Laravel than v5.5, you need to register the service provider manually:
 
 ```php
-ElfSundae\Laravel\Apps\AppsServiceProvider::class,
+ElfSundae\Apps\AppsServiceProvider::class,
 ```
 
 Then publish the configuration file:
@@ -95,7 +95,7 @@ The `config` option may be used to override the default configurations for each 
 
 ### Obtain Application Manager Instance
 
-You may obtain the application manager instance using the `Apps` facade, the `apps()` helper function or type-hinting `ElfSundae\Laravel\Apps\AppManager` dependency.
+You may obtain the application manager instance using the `Apps` facade, the `apps()` helper function or type-hinting `ElfSundae\Apps\AppManager` dependency.
 
 ### Retrieve Application URL Configuration
 

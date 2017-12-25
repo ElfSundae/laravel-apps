@@ -1,14 +1,14 @@
 <?php
 
-namespace ElfSundae\Laravel\Apps\Test;
+namespace ElfSundae\Apps\Test;
 
 use Mockery as m;
 use Illuminate\Http\Request;
-use ElfSundae\Laravel\Apps\AppManager;
+use ElfSundae\Apps\AppManager;
+use ElfSundae\Apps\Facades\Apps;
 use Illuminate\Foundation\Application;
+use ElfSundae\Apps\AppsServiceProvider;
 use Illuminate\Support\ServiceProvider;
-use ElfSundae\Laravel\Apps\Facades\Apps;
-use ElfSundae\Laravel\Apps\AppsServiceProvider;
 
 class AppsServiceProviderTest extends TestCase
 {
@@ -39,7 +39,7 @@ class AppsServiceProviderTest extends TestCase
         $this->registerAppsService();
         $this->artisan('vendor:publish', [
             '--force' => true,
-            '--provider' => 'ElfSundae\Laravel\Apps\AppsServiceProvider',
+            '--provider' => AppsServiceProvider::class,
         ]);
         $this->assertFileExists(config_path('apps.php'));
     }

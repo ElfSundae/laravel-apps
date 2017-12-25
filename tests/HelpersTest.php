@@ -1,6 +1,6 @@
 <?php
 
-namespace ElfSundae\Laravel\Apps\Test;
+namespace ElfSundae\Apps\Test;
 
 use Mockery as m;
 

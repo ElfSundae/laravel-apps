@@ -1,6 +1,6 @@
 <?php
 
-namespace ElfSundae\Laravel\Apps\Facades;
+namespace ElfSundae\Apps\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static string url(string $app = '', string $path = '', mixed $parameters = [])
  * @method static void routes(array $attributes = [])
  *
- * @see \ElfSundae\Laravel\Apps\AppManager
+ * @see \ElfSundae\Apps\AppManager
  */
 class Apps extends Facade
 {
