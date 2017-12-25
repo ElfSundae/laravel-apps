@@ -60,7 +60,7 @@ return [
         ],
 
         'api' => [
-            // 'auth.defaults.guard' => 'api',
+            'auth.defaults.guard' => 'api',
         ],
 
     ],
