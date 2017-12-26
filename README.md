@@ -98,11 +98,13 @@ The `config` option may be used to override the default configurations for each 
 
 ### Obtain Application Manager Instance
 
-You may obtain the application manager instance using the `Apps` facade, the `apps()` helper function or type-hinting `ElfSundae\Apps\AppManager` dependency.
+You may obtain the application manager instance using the `Apps` facade, the `apps()` helper function or injecting the `ElfSundae\Apps\AppManager` dependency.
 
 ### Retrieve Application URL Configuration
 
 ```php
+use ElfSundae\Apps\Facades\Apps;
+
 // Get all application URLs
 Apps::urls();
 
