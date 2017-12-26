@@ -80,8 +80,10 @@ The `config` option may be used to override the default configurations for each 
     ],
 
     'admin' => [
-        'auth.defaults.passwords' => 'admin_users',
-        'auth.guards.web.provider' => 'admin_users',
+        'auth.defaults' => [
+            'guard' => 'admin',
+            'passwords' => 'admin_users',
+        ],
         'filesystems.default' => 'public',
         'session.domain' => env('SESSION_DOMAIN_ADMIN', null),
     ],
