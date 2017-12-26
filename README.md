@@ -73,7 +73,6 @@ The `config` option may be used to override the default configurations for each 
         'app.timezone' => 'Asia/Shanghai',
         'app.log' => env('APP_LOG', 'daily'),
         'app.log_max_files' => 50,
-        'auth.providers.users.model' => App\Models\User::class,
         'filesystems.disks.public.url' => env('APP_URL_ASSETS', env('APP_URL')).'/storage',
 
         'debugbar.options.auth.show_name' => false,
@@ -81,11 +80,15 @@ The `config` option may be used to override the default configurations for each 
     ],
 
     'admin' => [
+        'auth.defaults.passwords' => 'admin_users',
+        'auth.guards.web.provider' => 'admin_users',
+        'filesystems.default' => 'public',
         'session.domain' => env('SESSION_DOMAIN_ADMIN', null),
     ],
 
     'api' => [
         'auth.defaults.guard' => 'api',
+        'filesystems.default' => 's3',
     ],
 
 ],
