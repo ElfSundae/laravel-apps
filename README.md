@@ -162,7 +162,7 @@ Instead of adding all service providers to the `config/app.php` file, you may wa
 
 :warning: If your application runs on Laravel 5.5+ which support [package discovery](https://laravel.com/docs/5.5/packages#package-discovery), you also need to disable discovery for the optional packages in the `composer.json` file:
 
-```json
+```js
 "extra": {
     "laravel": {
         "dont-discover": [
@@ -282,7 +282,7 @@ function asset($path, $secure = null)
 require __DIR__.'/../vendor/autoload.php';
 ```
 
-This package ships with an [`asset.php`](asset.php) file you may include to change root URL to the root of the `assets` application for the `asset` helper:
+This package ships with an [`asset.php`](asset.php) file you may include to use the root URL of the `assets` application for the `asset()` helper:
 
 ```php
 require __DIR__.'/../vendor/elfsundae/laravel-apps/asset.php';
