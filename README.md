@@ -123,7 +123,7 @@ $appId = Apps::id();
 $appId = app_id();
 ```
 
-You may also pass arguments to the `id` method to check if the current app identifier matches a given value. The method will return `true` if the identifier matches any of the given values:
+You may also pass arguments to the `id` method to check if the current application identifier matches a given value. The method will return `true` if the identifier matches any of the given values:
 
 ```php
 if (Apps::id('admin')) {
@@ -191,7 +191,7 @@ class RouteServiceProvider extends ServiceProvider
 }
 ```
 
-The route files which named with the application identifiers in the `routes` directory will be automatically included, e.g. `routes/web.php`, `routes/admin.php`.
+The route files named with the application identifiers in the `routes` directory will be automatically included, such as `routes/web.php`, `routes/admin.php`.
 
 By default, the `routes` method will assign the existing middleware group named with the application identifier or `web` to the route group, and the namespace applied to your controller routes will be `StudlyCase` of the application identifier.
 
