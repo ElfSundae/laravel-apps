@@ -42,7 +42,7 @@ For earlier Laravel than v5.5, you need to register the service provider manuall
 ElfSundae\Apps\AppsServiceProvider::class,
 ```
 
-Then publish the configuration file:
+Then publish the [configuration file](config/apps.php) to your `config` directory:
 
 ```sh
 $ php artisan vendor:publish --tag=laravel-apps
