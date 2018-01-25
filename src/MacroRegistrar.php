@@ -46,7 +46,7 @@ class MacroRegistrar
         if (! method_exists($class, $method)) {
             $class = is_object($class) ? get_class($class) : $class;
 
-            call_user_func_array([$class, 'macro'], [$method, $macro]);
+            call_user_func([$class, 'macro'], $method, $macro);
         }
     }
 }
