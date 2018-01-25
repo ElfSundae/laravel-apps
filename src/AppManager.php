@@ -217,7 +217,7 @@ class AppManager
             }
 
             $this->container['router']->group(
-                $this->getRouteGroupAttributes($id, Arr::get($attributes, $id, [])),
+                $this->getRouteAttributes($id, Arr::get($attributes, $id, [])),
                 function ($router) use ($file) {
                     require $file;
                 }
@@ -226,26 +226,37 @@ class AppManager
     }
 
     /**
-     * Get route group attributes for the given application.
+     * Get the route attributes.
      *
      * @param  string  $app
      * @param  array  $attributes
      * @return array
      */
-    protected function getRouteGroupAttributes($app, array $attributes = [])
+    protected function getRouteAttributes($app, array $attributes = [])
     {
-        $attr = [
+        return array_filter(array_merge(
+            $this->getDefaultRouteAttributes($app), $attributes
+        ));
+    }
+
+    /**
+     * Get the default route attributes for the application.
+     *
+     * @param  string  $app
+     * @return array
+     */
+    protected function getDefaultRouteAttributes($app)
+    {
+        return [
             'domain' => $this->domain($app),
             'prefix' => $this->prefix($app),
             'middleware' => $this->container['router']->hasMiddlewareGroup($app) ? $app : 'web',
             'namespace' => $this->getRootControllerNamespace($app),
         ];
-
-        return array_filter(array_merge($attr, $attributes));
     }
 
     /**
-     * Get the root controller namespace for the given application.
+     * Get the root controller namespace for the application.
      *
      * @param  string  $app
      * @return string
