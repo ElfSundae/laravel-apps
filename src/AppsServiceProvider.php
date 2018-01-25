@@ -88,9 +88,9 @@ class AppsServiceProvider extends ServiceProvider
             $providers = (array) Arr::get($providers, $this->app['apps']->id());
         }
 
-        array_walk($providers, function ($p) {
+        foreach ($providers as $p) {
             $this->app->register($p);
-        });
+        }
     }
 
     /**
