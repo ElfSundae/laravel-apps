@@ -224,14 +224,14 @@ class AppManager
     {
         $attr = $attributes instanceof Closure
             ? $attributes
-            : function ($app) use ($attributes) {
-                return Arr::get($attributes, $app, []);
+            : function ($id) use ($attributes) {
+                return Arr::get($attributes, $id, []);
             };
 
-        foreach ($this->ids() as $app) {
-            if (file_exists($file = $this->getRouteFile($app))) {
+        foreach ($this->ids() as $id) {
+            if (file_exists($file = $this->getRouteFile($id))) {
                 $this->container['router']->group(
-                    $this->getRouteAttributes($app, $attr),
+                    $this->getRouteAttributes($id, $attr),
                     $this->getRouteFileLoader($file)
                 );
             }
