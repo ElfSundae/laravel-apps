@@ -50,6 +50,16 @@ class AppManager
     }
 
     /**
+     * Get all application identifiers.
+     *
+     * @return array
+     */
+    public function ids()
+    {
+        return array_keys($this->urls());
+    }
+
+    /**
      * Get the root URL for the application identifier.
      *
      * @param  string  $app

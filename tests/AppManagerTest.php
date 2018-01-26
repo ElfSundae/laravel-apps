@@ -38,6 +38,16 @@ class AppManagerTest extends TestCase
         $this->assertEquals($urls, $this->getManager()->urls());
     }
 
+    public function testGetAllAppIds()
+    {
+        $urls = [
+            'web' => 'http://example.com',
+            'admin' => 'http://admin.example.com',
+        ];
+        $this->setAppsConfig(['url' => $urls]);
+        $this->assertEquals(['web', 'admin'], $this->getManager()->ids());
+    }
+
     public function testGetRootUrl()
     {
         $this->app['config']->set([
