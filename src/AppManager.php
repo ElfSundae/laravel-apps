@@ -221,22 +221,31 @@ class AppManager
      */
     public function routes(array $attributes = [])
     {
-        foreach ($this->urls() as $id => $url) {
-            if (! file_exists($file = base_path("routes/$id.php"))) {
-                continue;
+        foreach ($this->ids() as $id) {
+            if (file_exists($file = $this->getRouteFile($id))) {
+                $this->container['router']->group(
+                    $this->getRouteAttributes($id, Arr::get($attributes, $id, [])),
+                    function ($router) use ($file) {
+                        require $file;
+                    }
+                );
             }
-
-            $this->container['router']->group(
-                $this->getRouteAttributes($id, Arr::get($attributes, $id, [])),
-                function ($router) use ($file) {
-                    require $file;
-                }
-            );
         }
     }
 
     /**
-     * Get the route attributes.
+     * Get the route file for the application.
+     *
+     * @param  string  $app
+     * @return string
+     */
+    protected function getRouteFile($app)
+    {
+        return base_path("routes/{$app}.php");
+    }
+
+    /**
+     * Get the route attributes for the application.
      *
      * @param  string  $app
      * @param  array  $attributes
