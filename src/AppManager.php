@@ -222,16 +222,17 @@ class AppManager
      */
     public function routes($attributes = [])
     {
-        $attr = $attributes instanceof Closure
-            ? $attributes
-            : function ($id) use ($attributes) {
-                return Arr::get($attributes, $id, []);
+        if (! $attributes instanceof Closure) {
+            $attr = $attributes;
+            $attributes = function ($id) use ($attr) {
+                return Arr::get($attr, $id, []);
             };
+        }
 
         foreach ($this->ids() as $id) {
             if (file_exists($file = $this->getRouteFile($id))) {
                 $this->container['router']->group(
-                    $this->getRouteAttributes($id, $attr),
+                    $this->getRouteAttributes($id, $attributes),
                     $this->getRouteFileLoader($file)
                 );
             }
