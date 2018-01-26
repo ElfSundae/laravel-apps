@@ -2,6 +2,7 @@
 
 namespace ElfSundae\Apps;
 
+use Closure;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
@@ -216,18 +217,22 @@ class AppManager
      *
      * You may call this method in the `map` method of your `RouteServiceProvider`.
      *
-     * @param  array  $attributes
+     * @param  array|\Closure  $attributes
      * @return void
      */
-    public function routes(array $attributes = [])
+    public function routes($attributes = [])
     {
-        foreach ($this->ids() as $id) {
-            if (file_exists($file = $this->getRouteFile($id))) {
+        $attr = $attributes instanceof Closure
+            ? $attributes
+            : function ($app) use ($attributes) {
+                return Arr::get($attributes, $app, []);
+            };
+
+        foreach ($this->ids() as $app) {
+            if (file_exists($file = $this->getRouteFile($app))) {
                 $this->container['router']->group(
-                    $this->getRouteAttributes($id, Arr::get($attributes, $id, [])),
-                    function ($router) use ($file) {
-                        require $file;
-                    }
+                    $this->getRouteAttributes($app, $attr),
+                    $this->getRouteFileLoader($file)
                 );
             }
         }
@@ -245,14 +250,31 @@ class AppManager
     }
 
     /**
+     * Get the route file loader.
+     *
+     * @param  string  $file
+     * @return \Closure
+     */
+    protected function getRouteFileLoader($file)
+    {
+        return function ($router) use ($file) {
+            require $file;
+        };
+    }
+
+    /**
      * Get the route attributes for the application.
      *
      * @param  string  $app
-     * @param  array  $attributes
+     * @param  array|\Closure  $attributes
      * @return array
      */
-    protected function getRouteAttributes($app, array $attributes = [])
+    protected function getRouteAttributes($app, $attributes = [])
     {
+        if ($attributes instanceof Closure) {
+            $attributes = $attributes($app, $this) ?: [];
+        }
+
         return array_filter(array_merge(
             $this->getDefaultRouteAttributes($app), $attributes
         ));
