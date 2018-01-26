@@ -238,14 +238,12 @@ class AppManagerTest extends TestCase
             'namespace' => 'Foo\Controllers\Web',
             'prefix' => null,
         ]);
-
         $this->assertJsonResponse($this->get('http://admin.example.com'), [
             'domain' => 'admin.example.com',
             'middleware' => 'web',
             'namespace' => 'Foo\Controllers\Admin',
             'prefix' => null,
         ]);
-
         $this->assertJsonResponse($this->get('http://example.com/api'), [
             'domain' => 'example.com',
             'middleware' => 'api-middleware',
@@ -263,6 +261,23 @@ class AppManagerTest extends TestCase
             'middleware' => 'api',
             'namespace' => 'App\Http\Controllers\Api',
             'prefix' => 'api',
+        ]);
+
+        $this->app['router']->setRoutes(new RouteCollection);
+        $this->app['apps']->routes(function ($id, $apps) {
+            $this->assertSame($this->app['apps'], $apps);
+
+            return ['as' => $id.'.'];
+        });
+
+        $this->assertJsonResponse($this->get('http://example.com'), [
+            'as' => 'web.index',
+        ]);
+        $this->assertJsonResponse($this->get('http://admin.example.com'), [
+            'as' => 'admin.index',
+        ]);
+        $this->assertJsonResponse($this->get('http://example.com/api'), [
+            'as' => 'api.index',
         ]);
     }
 
