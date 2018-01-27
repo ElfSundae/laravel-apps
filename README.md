@@ -110,6 +110,9 @@ use ElfSundae\Apps\Facades\Apps;
 // Get all application URLs
 Apps::urls();
 
+// Get all application identifiers
+apps()->ids();
+
 // Get URL root for the assets app
 apps()->root('assets');
 
@@ -198,7 +201,7 @@ class RouteServiceProvider extends ServiceProvider
 }
 ```
 
-The route files named with the application identifiers in the `routes` directory will be automatically included, such as `routes/web.php`, `routes/admin.php`.
+The route files named with the application identifiers in the `routes` directory will be automatically loaded, such as `routes/web.php`, `routes/admin.php`.
 
 By default, the `routes` method will assign the existing middleware group named with the application identifier or `web` to the route group, and the namespace applied to your controller routes will be `StudlyCase` of the application identifier.
 
@@ -251,6 +254,14 @@ apps()->routes([
         ],
     ],
 ]);
+```
+
+In addition to an array, you can pass a Closure to the `routes` method:
+
+```php
+apps()->routes(function ($id, $apps) {
+    return ['as' => $id.'.'];
+});
 ```
 
 ### Generate URL
