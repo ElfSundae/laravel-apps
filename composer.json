@@ -49,5 +49,7 @@
                 "Apps": "ElfSundae\\Apps\\Facades\\Apps"
             }
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
