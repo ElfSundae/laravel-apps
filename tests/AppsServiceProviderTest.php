@@ -12,7 +12,7 @@ use Illuminate\Support\ServiceProvider;
 
 class AppsServiceProviderTest extends TestCase
 {
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->app['files']->delete(config_path('apps.php'));
 

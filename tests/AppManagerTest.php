@@ -7,7 +7,7 @@ use Illuminate\Routing\RouteCollection;
 
 class AppManagerTest extends TestCase
 {
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->app['files']->deleteDirectory(base_path('routes'));
 
