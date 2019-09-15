@@ -24,6 +24,7 @@
         <env name="APP_KEY" value="12345678901234567890123456789012"/>
         <env name="APP_URL" value="http://localhost"/>
         <env name="CACHE_DRIVER" value="array"/>
+        <env name="MAIL_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
     </php>
