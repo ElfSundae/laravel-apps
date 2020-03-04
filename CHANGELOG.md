@@ -1,5 +1,9 @@
 # Release Notes
 
+## 0.6.0 (2020-03-04)
+
+- Add support for Laravel 7
+
 ## 0.5.0 (2019-09-15)
 
 - Support Laravel 6

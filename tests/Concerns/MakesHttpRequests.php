@@ -2,8 +2,6 @@
 
 namespace ElfSundae\Apps\Test\Concerns;
 
-use Illuminate\Foundation\Testing\TestResponse;
-
 trait MakesHttpRequests
 {
     /**
@@ -15,7 +13,7 @@ trait MakesHttpRequests
      */
     protected function assertJsonResponse($response, array $data)
     {
-        if ($response instanceof TestResponse) {
+        if (method_exists($response, 'assertJson')) {
             return $response->assertJson($data);
         }
 
