@@ -2,13 +2,13 @@
 
 namespace ElfSundae\Apps\Test;
 
-use Mockery as m;
-use Illuminate\Http\Request;
 use ElfSundae\Apps\AppManager;
+use ElfSundae\Apps\AppsServiceProvider;
 use ElfSundae\Apps\Facades\Apps;
 use Illuminate\Foundation\Application;
-use ElfSundae\Apps\AppsServiceProvider;
+use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
+use Mockery as m;
 
 class AppsServiceProviderTest extends TestCase
 {

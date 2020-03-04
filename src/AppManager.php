@@ -3,10 +3,10 @@
 namespace ElfSundae\Apps;
 
 use Closure;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
-use Illuminate\Contracts\Container\Container;
 
 class AppManager
 {
