@@ -1,5 +1,9 @@
 # Release Notes
 
+## 0.9.0 (2022-02-20)
+
+- Add support for Laravel 9
+
 ## 0.8.0 (2020-12-01)
 
 - Support PHP 8
