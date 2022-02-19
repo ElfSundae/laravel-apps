@@ -30,6 +30,10 @@ class AppsServiceProviderTest extends TestCase
 
     public function testRegisteredMacros()
     {
+        if (method_exists($this->app['url'], 'getRootControllerNamespace')) {
+            return $this->assertTrue(true);
+        }
+
         $this->registerAppsService();
         $this->assertTrue($this->app['url']->hasMacro('getRootControllerNamespace'));
     }
