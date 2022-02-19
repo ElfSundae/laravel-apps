@@ -2,11 +2,12 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/elfsundae/laravel-apps.svg?style=flat-square)](https://packagist.org/packages/elfsundae/laravel-apps)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/ElfSundae/laravel-apps/master.svg?style=flat-square)](https://travis-ci.org/ElfSundae/laravel-apps)
+[![tests](https://github.com/ElfSundae/laravel-apps/actions/workflows/tests.yml/badge.svg)](https://github.com/ElfSundae/laravel-apps/actions/workflows/tests.yml)
 [![StyleCI](https://styleci.io/repos/112607947/shield)](https://styleci.io/repos/112607947)
-[![SensioLabsInsight](https://img.shields.io/sensiolabs/i/b0dfa271-15a4-422a-8007-443d511d800d.svg?style=flat-square)](https://insight.sensiolabs.com/projects/b0dfa271-15a4-422a-8007-443d511d800d)
+[![SymfonyInsight Grade](https://img.shields.io/symfony/i/grade/0dca9ec7-57c6-4162-97a5-8d0a3159844d?style=flat-square)](https://insight.symfony.com/projects/0dca9ec7-57c6-4162-97a5-8d0a3159844d)
 [![Quality Score](https://img.shields.io/scrutinizer/g/ElfSundae/laravel-apps.svg?style=flat-square)](https://scrutinizer-ci.com/g/ElfSundae/laravel-apps)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/ElfSundae/laravel-apps/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/ElfSundae/laravel-apps/?branch=master)
+[![Total Downloads](https://img.shields.io/packagist/dt/elfsundae/laravel-apps.svg?style=flat-square)](https://packagist.org/packages/elfsundae/laravel-apps)
 
 This package provides basic support for Laravel multi-application.
 
